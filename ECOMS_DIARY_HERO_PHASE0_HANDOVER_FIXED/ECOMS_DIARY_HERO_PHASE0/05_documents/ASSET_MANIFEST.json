@@ -1,0 +1,51 @@
+{
+  "package": "Hero Chess Phase 0 · Giải pháp của Ecom’s Diary",
+  "extracted_from": "ECOMS-DIARY-IT-VISUAL-BRIEF-CANDIDATE-2026-10-13.pdf",
+  "date": "2026-10-14",
+  "approval": "CANDIDATE — CHỜ FOUNDER DUYỆT; STAGING PRIVATE ONLY",
+  "public_brand": "Giải pháp của Ecom’s Diary",
+  "source_note": "Assets extracted from 9-page visual brief PDF. Original 12/10 chess HTML and actual 3-layer/3-state source files were not supplied in this package.",
+  "images": [
+    {
+      "path": "01_source_from_pdf/horse-reference-pdf-page3.jpg",
+      "page": 3,
+      "pdf_xref": 6,
+      "width": 1032,
+      "height": 640,
+      "sha256": "8cc65e7db219a90cf31db09e09cee985faa14814fcad70724389e966f1eff404",
+      "source": "Direct embedded-image extraction, no visual edits",
+      "note": "Hình 03: ảnh quân Mã lớp 1/3; trích trực tiếp ảnh nhúng PDF",
+      "status": "CANDIDATE_REFERENCE_NOT_FINAL_ASSET"
+    },
+    {
+      "path": "01_source_from_pdf/hero-desktop-reference-pdf-page1.jpg",
+      "page": 1,
+      "pdf_xref": 415,
+      "width": 1440,
+      "height": 966,
+      "sha256": "c42f8168d12ff2f088805fa1adf42fcc352a60512f50c4371573411e6709b77a",
+      "source": "Direct embedded-image extraction, no visual edits",
+      "note": "Hình 01: desktop composition; screenshot tham chiếu không phải ảnh Hero riêng",
+      "status": "CANDIDATE_REFERENCE_NOT_FINAL_ASSET"
+    },
+    {
+      "path": "01_source_from_pdf/hero-mobile-reference-pdf-page2.jpg",
+      "page": 2,
+      "pdf_xref": 3,
+      "width": 390,
+      "height": 1041,
+      "sha256": "db506b8b38f573e9e5ce7f87b18d3066ec4111ddda09d06da211b7bfc67342f5",
+      "source": "Direct embedded-image extraction, no visual edits",
+      "note": "Hình 02: mobile composition; screenshot tham chiếu không phải ảnh Hero riêng",
+      "status": "CANDIDATE_REFERENCE_NOT_FINAL_ASSET"
+    }
+  ],
+  "derived_files": [
+    {
+      "path": "02_optimized_reference/horse-reference-pdf-preview.webp",
+      "source": "01_source_from_pdf/horse-reference-pdf-page3.jpg",
+      "operation": "lossy WebP export (no content changes)",
+      "usage": "STAGING PREVIEW ONLY"
+    }
+  ]
+}
