@@ -63,24 +63,18 @@ function WorkTrigger({
 
 function Header() {
   return (
-    <>
-      <div className="preview-bar" role="status">
-        <span className="preview-dot" aria-hidden="true" />
-        Preview tương tác · Chờ Founder duyệt · Không public / không nhận hồ sơ thật
-      </div>
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Giải pháp của Ecom’s Diary, về đầu trang">
-          <span className="wordmark-mark" aria-hidden="true">E</span>
-          <span>Giải pháp của<br className="wordmark-break" /> Ecom’s Diary</span>
-        </a>
-        <nav className="main-nav" aria-label="Điều hướng chính">
-          <a href="#why">Vì sao</a>
-          <a href="#flow">Cách ghép team</a>
-          <a href="#start">Bắt đầu</a>
-        </nav>
-        <WorkTrigger variant="dark" size="small">Mở việc <ArrowUpRight aria-hidden="true" size={13} /></WorkTrigger>
-      </header>
-    </>
+    <header className="site-header">
+      <a className="wordmark" href="#top" aria-label="Giải pháp của Ecom’s Diary, về đầu trang">
+        <span className="wordmark-mark" aria-hidden="true">E</span>
+        <span>Giải pháp của<br className="wordmark-break" /> Ecom’s Diary</span>
+      </a>
+      <nav className="main-nav" aria-label="Điều hướng chính">
+        <a href="#why">Vì sao</a>
+        <a href="#flow">Cách ghép team</a>
+        <a href="#start">Bắt đầu</a>
+      </nav>
+      <WorkTrigger variant="dark" size="small">Mở việc <ArrowUpRight aria-hidden="true" size={13} /></WorkTrigger>
+    </header>
   );
 }
 

@@ -39,8 +39,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .skip-link { position: fixed; z-index: 50; top: 8px; left: 8px; padding: 10px 14px; background: var(--ink); color: white; transform: translateY(-160%); }
 .skip-link:focus { transform: translateY(0); }
-.preview-bar { min-height: 30px; padding: 5px 24px; display: flex; justify-content: center; align-items: center; gap: 9px; background: var(--burgundy); color: #fff9f2; text-align: center; text-transform: uppercase; letter-spacing: .105em; font-size: 9px; font-weight: 700; }
-.preview-dot { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; background: #e6bd84; box-shadow: 0 0 0 3px #ffffff24; }
 .site-header { width: min(100% - 64px, 1360px); height: 82px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid #d8d0c5; }
 .wordmark { width: fit-content; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 12px; line-height: 1.15; letter-spacing: .015em; font-weight: 700; }
 .wordmark-mark { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid var(--burgundy); color: var(--burgundy); font: 20px/1 var(--serif); }
@@ -331,7 +329,6 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 @media (max-width: 620px) {
   html { scroll-padding-top: 72px; }
   body { font-size: 14px; }
-  .preview-bar { min-height: 28px; padding-inline: 10px; letter-spacing: .07em; font-size: 7px; }
   .site-header { width: calc(100% - 34px); height: 65px; grid-template-columns: 1fr auto; }
   .wordmark { gap: 8px; font-size: 10px; }
   .wordmark-mark { width: 27px; height: 27px; font-size: 18px; }

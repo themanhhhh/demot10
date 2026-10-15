@@ -18,6 +18,7 @@ test.beforeEach(async ({ page }) => {
 test("serves the private preview with forms hidden and public metadata", async ({ page }) => {
   await expect(page).toHaveTitle("Giải pháp của Ecom’s Diary");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  await expect(page.locator(".preview-bar")).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Nhiều cách ghép team");
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect(page.locator("form.lead-form")).toHaveCount(0);
