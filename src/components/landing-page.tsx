@@ -38,8 +38,8 @@ function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="eyebrow">{children}</p>;
 }
 
-function DemoStamp({ children = <>DEMO<br />GIẢ ĐỊNH</> }: { children?: ReactNode }) {
-  return <span className="demo-stamp">{children}</span>;
+function PreviewStamp({ children = <>VÍ DỤ<br />GIẢ ĐỊNH</> }: { children?: ReactNode }) {
+  return <span className="preview-stamp">{children}</span>;
 }
 
 function WorkTrigger({
@@ -113,7 +113,7 @@ function Hero() {
           />
           <span className="scene-label">ẢNH THAM CHIẾU · CHỜ ASSET GỐC</span>
         </div>
-        <figcaption><span>Một việc. Nhiều hướng đi.</span><span className="caption-rule" /><span>DEMO · KHÔNG PHẢI CAM KẾT</span></figcaption>
+        <figcaption><span>Một việc. Nhiều hướng đi.</span><span className="caption-rule" /><span>ẢNH THAM CHIẾU · CHƯA PHẢI ASSET CUỐI</span></figcaption>
       </figure>
       <div className="hero-footnote"><span>01 — 04</span><span>GIẢI PHÁP ĐƯỢC HÌNH THÀNH QUA ĐỐI THOẠI</span><span>SCROLL ĐỂ KHÁM PHÁ <ArrowDown aria-hidden="true" size={10} /></span></div>
     </section>
@@ -175,7 +175,7 @@ function PainSection({
         <div className="pain-response" ref={responseRef} aria-live="polite" aria-atomic="true">
           <span className="response-mark" aria-hidden="true"><MoveRight size={16} /></span>
           <div><p className="response-kicker">Một việc kinh doanh có thể có nhiều điểm tiếp cận.</p><p>{selectedScenario.response}</p></div>
-          <DemoStamp />
+          <PreviewStamp />
         </div>
       </div>
     </section>
@@ -186,11 +186,14 @@ function ResourceSection() {
   const [selectedResources, setSelectedResources] = useState<ResourceId[]>(["inhouse"]);
   const resourceGridRef = useScrollReveal<HTMLDivElement>();
   const selectedNames = resources.filter((resource) => selectedResources.includes(resource.id)).map((resource) => resource.name);
+  const selectedExternalNames = resources.filter((resource) => resource.id !== "inhouse" && selectedResources.includes(resource.id)).map((resource) => resource.name);
   const coordinationCopy = selectedResources.length === 0
-    ? "Chọn một nguồn lực để xem ví dụ phối hợp. Đây không phải cấu hình đã được Partner thẩm định."
+    ? "Chọn nguồn lực có thể tham gia. Client quyết định cấu hình theo phạm vi công việc."
     : selectedResources.length === 1 && selectedResources[0] === "inhouse"
-      ? "Có thể giữ đội ngũ đang có; việc bổ sung nguồn lực chỉ được xem xét sau khi phạm vi đã rõ."
-      : `Đây là ví dụ phối hợp ${selectedNames.join(" + ")}. Client vẫn quyết định vai trò, phạm vi và cam kết.`;
+      ? "Team hiện tại có thể tiếp tục tham gia. Client quyết định phần việc nào cần bổ sung nguồn lực ngoài."
+      : selectedResources.includes("inhouse")
+        ? `Có thể giữ team hiện tại và bổ sung ${selectedExternalNames.join(" + ")}. Partner chuyên môn đề xuất hướng; Client quyết định phạm vi, vai trò và cam kết.`
+        : `Các nguồn lực ${selectedNames.join(" + ")} có thể phối hợp theo phạm vi đã thống nhất. Partner chuyên môn đề xuất hướng; Client quyết định cấu hình và cam kết.`;
 
   function toggleResource(id: ResourceId) {
     setSelectedResources((current) => current.includes(id)
@@ -234,7 +237,7 @@ function ResourceSection() {
           );
         })}
       </div>
-      <div className="coordination-note" aria-live="polite" aria-atomic="true"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><div><p><strong>{selectedNames.length ? `Nguồn lực đang xem: ${selectedNames.join(" + ")}` : "Chưa chọn nguồn lực minh họa"}</strong></p><p>{coordinationCopy}</p></div><DemoStamp>DEMO<br />KHÁI NIỆM</DemoStamp></div>
+      <div className="coordination-note" aria-live="polite" aria-atomic="true"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><div><p><strong>{selectedNames.length ? `Nguồn lực đang chọn: ${selectedNames.join(" + ")}` : "Chưa chọn nguồn lực"}</strong></p><p>{coordinationCopy}</p></div><span className="coordination-tag">NGUYÊN TẮC</span></div>
     </section>
   );
 }
@@ -298,7 +301,7 @@ function FlowSection({
 
   return (
     <section className="flow-section section-wrap section-pad" id="flow" aria-labelledby="flow-title">
-      <div className="section-topline"><Eyebrow>02 <span className="eyebrow-line" /> Từ việc đến Deal</Eyebrow><span className="demo-inline"><span aria-hidden="true">●</span> TẤT CẢ VÍ DỤ LÀ DEMO</span></div>
+       <div className="section-topline"><Eyebrow>02 <span className="eyebrow-line" /> Từ việc đến Deal</Eyebrow><span className="demo-inline"><span aria-hidden="true">●</span> VÍ DỤ GIẢ ĐỊNH · CHƯA PHẢI ĐỀ XUẤT THỰC</span></div>
       <div className="flow-heading-row">
         <div><h2 id="flow-title">Một việc. Những hướng<br /><em>giải khác nhau.</em></h2><p className="flow-intro">Chọn một tình huống, xem các hướng giải và cấu hình team giả định. Không có Partner, báo giá hay kết quả thực được đại diện ở đây.</p></div>
         <div className="flow-aside"><span className="aside-num">4</span><span>bước để làm rõ<br />một Deal</span></div>
@@ -332,8 +335,8 @@ function FlowSection({
           </div>
 
           <div className="builder-block">
-            <div className="builder-label"><span className="builder-step">B</span><div><p>PARTNER CHUYÊN MÔN ĐỀ XUẤT · DEMO</p><h3>Các hướng có thể xem xét</h3></div></div>
-            <p className="builder-help">Một tình huống có thể có nhiều hướng. Đây là ví dụ giả định, không phải khuyến nghị.</p>
+            <div className="builder-label"><span className="builder-step">B</span><div><p>CƠ CHẾ PARTNER ĐỀ XUẤT · MINH HỌA</p><h3>Các hướng có thể xem xét</h3></div></div>
+            <p className="builder-help">Một tình huống có thể có nhiều hướng. Các hướng dưới đây chưa phải khuyến nghị cho doanh nghiệp thật.</p>
             <div className="direction-list" role="group" aria-label="Chọn một hướng giải minh họa">
               {selectedScenario.solutions.map((solution, index) => (
                 <button
@@ -351,7 +354,7 @@ function FlowSection({
 
           <div className="builder-block team-block">
             <div className="builder-label"><span className="builder-step">C</span><div><p>CLIENT CHỌN CẤU HÌNH</p><h3>Nhiều cách ghép team</h3></div></div>
-            <p className="builder-help">Các cấu hình dưới đây chỉ để minh họa; Client quyết định sau khi làm rõ vai trò và phạm vi.</p>
+            <p className="builder-help">Một hướng có thể có nhiều cấu hình team. Client quyết định sau khi làm rõ vai trò, phạm vi và cam kết.</p>
             {selectedSolution ? (
               <div className="team-options configuration-options" role="group" aria-label="Chọn cấu hình team minh họa">
                 {selectedSolution.configurations.map((configuration) => (
@@ -375,7 +378,7 @@ function FlowSection({
         </div>
 
         <aside ref={dealPreviewRef} className="deal-preview" aria-labelledby="deal-title" aria-live="polite" aria-atomic="true">
-          <div className="deal-top"><span className="deal-mark" aria-hidden="true">E</span><DemoStamp /></div>
+          <div className="deal-top"><span className="deal-mark" aria-hidden="true">E</span><PreviewStamp>CẤU HÌNH<br />MINH HỌA</PreviewStamp></div>
           <p className="deal-kicker">CẤU HÌNH ĐANG XEM</p><h3 id="deal-title">Một Deal cần rõ điều gì?</h3>
           <div className="deal-situation"><span>VIỆC</span><p>{selectedScenario.problem}</p></div>
           <div className="deal-situation"><span>HƯỚNG MINH HỌA</span><p>{selectedSolution?.title ?? "Chưa chọn hướng giải"}</p></div>
@@ -386,7 +389,7 @@ function FlowSection({
             {(selectedConfiguration?.roleDescriptions ?? ["Chọn cấu hình để xem vai trò minh họa."]).map((description) => <li key={description}>{description}</li>)}
             <li>Deal Lead có thể là một Partner.</li>
           </ul>
-          <p className="deal-disclaimer">Ví dụ giao diện, không phải đề xuất thực. Không có giá, Partner sẵn có hay kết quả được bảo đảm.</p>
+          <p className="deal-disclaimer">Bản trình bày minh họa, không phải đề xuất hay Deal đã hình thành. Chưa có Partner được xác nhận, giá hoặc kết quả bảo đảm.</p>
         </aside>
       </div>
     </section>
@@ -400,7 +403,7 @@ function StartSection() {
         <div className="start-copy">
           <Eyebrow><span className="eyebrow-line" />03 — Bước tiếp theo</Eyebrow>
           <h2 id="start-title">Bạn muốn<br /><em>bắt đầu thế nào?</em></h2>
-          <p>Chọn cách chia sẻ bối cảnh phù hợp. Hai form đang ẩn cho đến khi bạn mở lựa chọn. Đây là bản DEMO; vui lòng không nhập thông tin cá nhân thật.</p>
+          <p>Chọn cách chia sẻ bối cảnh phù hợp. Hai form đang ẩn cho đến khi bạn mở lựa chọn. Bản xem trước chưa kết nối hệ thống tiếp nhận; vui lòng không nhập thông tin cá nhân thật.</p>
           <WorkTrigger>Mở việc <ArrowUpRight aria-hidden="true" size={14} /></WorkTrigger>
         </div>
         <div className="start-aside">
@@ -457,7 +460,7 @@ function DialogFallback({ restoreFocus }: { restoreFocus: () => void }) {
         restoreFocus();
       }}>
         <Dialog.Title className="sr-only">Đang mở bản xem trước</Dialog.Title>
-        <Dialog.Description className="sr-only">Luồng Mở việc DEMO, không gửi dữ liệu.</Dialog.Description>
+        <Dialog.Description className="sr-only">Luồng Mở việc đang tải. Không có dữ liệu được gửi.</Dialog.Description>
         <div className="dialog-shell">
           <div className="dialog-topbar">
             <span className="wordmark dialog-wordmark"><span className="wordmark-mark" aria-hidden="true">E</span><span>Giải pháp của Ecom’s Diary</span></span>

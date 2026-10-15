@@ -403,7 +403,7 @@ export function StartDialogContent() {
                     <p className="eyebrow">{route === "a" ? "FORM A · TRAO ĐỔI TRƯỚC" : "FORM B · GỬI BỐI CẢNH"}</p>
                     <Dialog.Title asChild><h2 className="form-title">{route === "a" ? <>Cho chúng tôi biết<br /><em>việc bạn muốn bắt đầu.</em></> : <>Giúp chúng tôi hiểu<br /><em>bối cảnh của bạn.</em></>}</h2></Dialog.Title>
                   </div>
-                  <span className="demo-stamp form-stamp">DEMO<br />KHÔNG GỬI THẬT</span>
+                  <span className="preview-stamp form-stamp">XEM TRƯỚC<br />CHƯA GỬI THẬT</span>
                 </div>
                 <Dialog.Description asChild><p className="form-warning"><strong>Preview nội bộ.</strong> Chỉ dùng dữ liệu giả lập. Form này không gửi thông tin và không lưu hồ sơ. Trường và lựa chọn cần được đối chiếu với Form gốc trước khi duyệt.</p></Dialog.Description>
               </div>

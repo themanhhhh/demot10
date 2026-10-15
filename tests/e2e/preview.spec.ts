@@ -19,6 +19,7 @@ test("serves the private preview with forms hidden and public metadata", async (
   await expect(page).toHaveTitle("Giải pháp của Ecom’s Diary");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   await expect(page.locator(".preview-bar")).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText("DEMO");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Nhiều cách ghép team");
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect(page.locator("form.lead-form")).toHaveCount(0);
@@ -90,7 +91,8 @@ test("resource cards toggle with pointer and keyboard and update the coordinatio
 
   await agency.press("Enter");
   await expect(agency).toHaveAttribute("aria-pressed", "false");
-  await expect(page.locator(".coordination-note")).toContainText("Chưa chọn nguồn lực minh họa");
+  await expect(page.locator(".coordination-note")).toContainText("Chưa chọn nguồn lực");
+  await expect(page.locator(".coordination-note")).not.toContainText("DEMO");
 });
 
 test("Form A keeps its draft on Back, validates locally and only confirms a DEMO", async ({ page }) => {
@@ -104,6 +106,7 @@ test("Form A keeps its draft on Back, validates locally and only confirms a DEMO
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Chọn trao đổi trước" })).toBeFocused();
   await dialog.getByRole("button", { name: "Chọn trao đổi trước" }).click();
+  await expect(dialog).not.toContainText("DEMO");
 
   const form = page.locator("form.lead-form").first();
   const task = form.getByLabel("Bạn muốn giải quyết việc gì trong doanh nghiệp?");
