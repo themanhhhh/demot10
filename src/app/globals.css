@@ -77,6 +77,11 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .chess-scene { position: relative; height: clamp(300px, 35vw, 450px); overflow: hidden; background: linear-gradient(115deg, #ded4c8, #f8f1e7 50%, #b19a85); isolation: isolate; }
 .chess-scene::after { position: absolute; z-index: 1; inset: 0; content: ""; background: linear-gradient(180deg, #fff7e910 0%, transparent 52%, #21161336 100%); pointer-events: none; }
 .chess-reference-image { z-index: 0; object-fit: cover; object-position: 42% center; }
+.pointer-spotlight-region { position: relative; isolation: isolate; }
+.pointer-spotlight { position: absolute; z-index: 0; inset: 0; background: radial-gradient(190px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), #bd7f871f 0%, #e9d4c31a 36%, transparent 76%); opacity: 0; pointer-events: none; }
+.chess-scene > .pointer-spotlight { z-index: 2; background: radial-gradient(220px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), #f5d9bf30 0%, #f2d8c31a 35%, transparent 76%); }
+.resource-choice > :not(.pointer-spotlight), .spotlight-button > :not(.pointer-spotlight) { position: relative; z-index: 1; }
+.spotlight-button { position: relative; isolation: isolate; }
 .scene-label { position: absolute; z-index: 3; top: 12px; right: 13px; padding: 6px 8px; border: 1px solid #d2c5b9; background: #fffaf0; color: var(--ink); letter-spacing: .1em; font-size: 8px; line-height: 1.6; font-weight: 700; }
 .hero-art figcaption { min-height: 39px; gap: 12px; font-size: 7px; }
 .hero-art figcaption span:last-child { color: var(--burgundy); }

@@ -1,7 +1,7 @@
 "use client";
 
 import { lazy, Suspense, useContext, useReducer, useRef, useState } from "react";
-import type { KeyboardEvent, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, KeyboardEvent, ReactNode } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -23,6 +23,7 @@ import { demoScenarios, resourceLabels } from "@/features/deal-demo/scenarios";
 import { demoReducer, initialDemoState } from "@/features/deal-demo/reducer";
 import type { DemoAction, DemoState } from "@/features/deal-demo/model";
 import { DialogFocusContext } from "@/contexts/dialog-focus-context";
+import { usePointerSpotlight } from "@/hooks/use-pointer-spotlight";
 
 const StartDialogContent = lazy(() => import("@/components/start-dialog").then((module) => ({ default: module.StartDialogContent })));
 
@@ -64,6 +65,17 @@ function WorkTrigger({
   );
 }
 
+function SpotlightButton({ className = "", children, ...props }: ComponentPropsWithoutRef<"button">) {
+  const { regionRef, spotlightRef } = usePointerSpotlight<HTMLButtonElement>();
+
+  return (
+    <button ref={regionRef} className={`pointer-spotlight-region spotlight-button ${className}`} {...props}>
+      {children}
+      <span ref={spotlightRef} className="pointer-spotlight" aria-hidden="true" />
+    </button>
+  );
+}
+
 function Header() {
   return (
     <header className="site-header">
@@ -83,6 +95,7 @@ function Header() {
 
 function Hero() {
   const heroArtRef = useScrollReveal<HTMLElement>();
+  const chessSceneSpotlight = usePointerSpotlight<HTMLDivElement>();
 
   return (
     <section className="hero section-wrap" id="top" aria-labelledby="hero-title">
@@ -102,7 +115,7 @@ function Hero() {
         className="hero-art"
       >
         <div className="art-topline"><span>GÓC NHÌN CỦA BẠN</span><span>01 / 03</span></div>
-        <div className="chess-scene">
+        <div className="chess-scene pointer-spotlight-region" ref={chessSceneSpotlight.regionRef}>
           <Image
             src="/assets/chess/horse-reference-pdf-preview.webp"
             alt="Quân Mã màu đồng trước các quân cờ khác trên bàn cờ; ảnh tham chiếu trích từ PDF, chưa phải asset cuối."
@@ -111,6 +124,7 @@ function Hero() {
             className="chess-reference-image"
             preload
           />
+          <span ref={chessSceneSpotlight.spotlightRef} className="pointer-spotlight" aria-hidden="true" />
           <span className="scene-label">ẢNH THAM CHIẾU · CHỜ ASSET GỐC</span>
         </div>
         <figcaption><span>Một việc. Nhiều hướng đi.</span><span className="caption-rule" /><span>ẢNH THAM CHIẾU · CHƯA PHẢI ASSET CUỐI</span></figcaption>
@@ -217,28 +231,47 @@ function ResourceSection() {
       <div className="resource-grid" ref={resourceGridRef}>
         {resources.map((resource, index) => {
           const selected = selectedResources.includes(resource.id);
-          return (
-          <article
-            className={`resource-card resource-choice${selected ? " is-selected" : ""}`}
-            key={resource.id}
-            data-resource={resource.id}
-            role="button"
-            tabIndex={0}
-            aria-pressed={selected}
-            onClick={() => toggleResource(resource.id)}
-            onKeyDown={(event) => handleResourceKeyDown(event, resource.id)}
-          >
-            <div className="resource-card-head"><span className="resource-number">0{index + 1}</span><span className="resource-symbol" aria-hidden="true">{resource.symbol}</span></div>
-            <p className="resource-type">{resource.type}</p><h3>{resource.name}</h3>
-            <p>{resource.detail}</p>
-            <span className="resource-tag">{resource.tag}</span>
-            <span className="resource-select-state">{selected ? "Đang chọn · nhấn để bỏ chọn" : "Chọn để xem phối hợp"}</span>
-          </article>
-          );
+          return <ResourceCard key={resource.id} resource={resource} index={index} selected={selected} onToggle={toggleResource} onKeyDown={handleResourceKeyDown} />;
         })}
       </div>
       <div className="coordination-note" aria-live="polite" aria-atomic="true"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><div><p><strong>{selectedNames.length ? `Nguồn lực đang chọn: ${selectedNames.join(" + ")}` : "Chưa chọn nguồn lực"}</strong></p><p>{coordinationCopy}</p></div><span className="coordination-tag">NGUYÊN TẮC</span></div>
     </section>
+  );
+}
+
+function ResourceCard({
+  resource,
+  index,
+  selected,
+  onToggle,
+  onKeyDown,
+}: {
+  resource: (typeof resources)[number];
+  index: number;
+  selected: boolean;
+  onToggle: (id: ResourceId) => void;
+  onKeyDown: (event: KeyboardEvent<HTMLElement>, id: ResourceId) => void;
+}) {
+  const { regionRef, spotlightRef } = usePointerSpotlight<HTMLElement>();
+
+  return (
+    <article
+      ref={regionRef}
+      className={`resource-card resource-choice pointer-spotlight-region${selected ? " is-selected" : ""}`}
+      data-resource={resource.id}
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      onClick={() => onToggle(resource.id)}
+      onKeyDown={(event) => onKeyDown(event, resource.id)}
+    >
+      <div className="resource-card-head"><span className="resource-number">0{index + 1}</span><span className="resource-symbol" aria-hidden="true">{resource.symbol}</span></div>
+      <p className="resource-type">{resource.type}</p><h3>{resource.name}</h3>
+      <p>{resource.detail}</p>
+      <span className="resource-tag">{resource.tag}</span>
+      <span className="resource-select-state">{selected ? "Đang chọn · nhấn để bỏ chọn" : "Chọn để xem phối hợp"}</span>
+      <span ref={spotlightRef} className="pointer-spotlight" aria-hidden="true" />
+    </article>
   );
 }
 
@@ -321,7 +354,7 @@ function FlowSection({
             <p className="builder-help">Đổi tình huống để làm mới các hướng giải và cấu hình team.</p>
             <div className="choice-list" role="group" aria-label="Chọn việc kinh doanh">
               {demoScenarios.map((scenario) => (
-                <button
+                <SpotlightButton
                   className={`choice-button${state.scenarioId === scenario.id ? " is-selected" : ""}`}
                   type="button"
                   key={scenario.id}
@@ -329,7 +362,7 @@ function FlowSection({
                   onClick={() => dispatch({ type: "SELECT_SCENARIO", scenarioId: scenario.id })}
                 >
                   <span className="choice-radio" aria-hidden="true" />{scenario.problem}
-                </button>
+                </SpotlightButton>
               ))}
             </div>
           </div>
@@ -339,7 +372,7 @@ function FlowSection({
             <p className="builder-help">Một tình huống có thể có nhiều hướng. Các hướng dưới đây chưa phải khuyến nghị cho doanh nghiệp thật.</p>
             <div className="direction-list" role="group" aria-label="Chọn một hướng giải minh họa">
               {selectedScenario.solutions.map((solution, index) => (
-                <button
+                <SpotlightButton
                   className={`direction-button${state.solutionId === solution.id ? " is-selected" : ""}`}
                   type="button"
                   key={solution.id}
@@ -347,7 +380,7 @@ function FlowSection({
                   onClick={() => dispatch({ type: "SELECT_SOLUTION", solutionId: solution.id })}
                 >
                   <span>0{index + 1}</span><span><b>{solution.title}</b><small>{solution.description}</small></span><span className="direction-check" aria-hidden="true"><Check size={10} /></span>
-                </button>
+                </SpotlightButton>
               ))}
             </div>
           </div>
@@ -358,7 +391,7 @@ function FlowSection({
             {selectedSolution ? (
               <div className="team-options configuration-options" role="group" aria-label="Chọn cấu hình team minh họa">
                 {selectedSolution.configurations.map((configuration) => (
-                  <button
+                  <SpotlightButton
                     className={`team-option configuration-option${state.configurationId === configuration.id ? " is-selected" : ""}`}
                     type="button"
                     key={configuration.id}
@@ -368,7 +401,7 @@ function FlowSection({
                   >
                     <span className="team-check" aria-hidden="true"><Check size={9} /></span>
                     <span><b>{configuration.title}</b><small>{configuration.resources.map((resource) => resourceLabels[resource]).join(" + ")}</small></span>
-                  </button>
+                  </SpotlightButton>
                 ))}
               </div>
             ) : (
