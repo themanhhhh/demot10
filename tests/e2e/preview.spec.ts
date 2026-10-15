@@ -22,6 +22,25 @@ test("serves the private preview with forms hidden and public metadata", async (
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Nhiều cách ghép team");
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect(page.locator("form.lead-form")).toHaveCount(0);
+  await expect(page.locator(".flow-footer")).toHaveCount(0);
+  await expect(page.locator(".footer-bottom")).toHaveCount(0);
+  await expect(page.getByRole("contentinfo")).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Điều hướng chân trang" })).toBeVisible();
+  await expect(page.getByText("Liên kết social chính thức sẽ được bổ sung khi có URL đã xác nhận.")).toBeVisible();
+});
+
+test("loads the self-hosted Vietnamese editorial font", async ({ page }) => {
+  const loadedFaces = await page.evaluate(async () => {
+    const phrase = "Nhiều cách ghép team.";
+    await document.fonts.load('italic 48px "Source Serif 4 Variable"', phrase);
+    return {
+      family: getComputedStyle(document.querySelector(".hero h1 em")!).fontFamily,
+      italicFace: document.fonts.check('italic 48px "Source Serif 4 Variable"', phrase),
+    };
+  });
+
+  expect(loadedFaces.family).toContain("Source Serif 4 Variable");
+  expect(loadedFaces.italicFace).toBe(true);
 });
 
 test("loads the local horse reference and labels it as a candidate asset", async ({ page }) => {
@@ -146,7 +165,7 @@ test("core preview interactions produce no runtime errors or external submission
   });
   page.on("request", (request) => {
     const url = new URL(request.url());
-    if ((url.protocol === "http:" || url.protocol === "https:") && url.origin !== "http://127.0.0.1:3104") {
+    if ((url.protocol === "http:" || url.protocol === "https:") && url.origin !== "http://localhost:3000") {
       externalRequests.push(url.href);
     }
     if (request.method() !== "GET") nonGetRequests.push(`${request.method()} ${url.pathname}`);

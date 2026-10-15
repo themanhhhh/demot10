@@ -354,7 +354,6 @@ function FlowSection({
           <p className="deal-disclaimer">Ví dụ giao diện, không phải đề xuất thực. Không có giá, Partner sẵn có hay kết quả được bảo đảm.</p>
         </aside>
       </div>
-      <div className="flow-footer"><span className="flow-footer-icon" aria-hidden="true"><CircleHelp size={19} /></span><p><strong>Không có cấu hình “tối ưu tự động”.</strong> Một hướng có thể có nhiều cấu hình team. Client quyết định sau khi làm rõ vai trò, điều kiện và cam kết.</p></div>
     </section>
   );
 }
@@ -382,10 +381,29 @@ function StartSection() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <a className="wordmark footer-wordmark" href="#top"><span className="wordmark-mark" aria-hidden="true">E</span><span>Giải pháp của<br className="wordmark-break" /> Ecom’s Diary</span></a>
-      <p className="footer-message">Một việc kinh doanh.<br />Nhiều cách ghép team.</p>
-      <WorkTrigger variant="outline" className="footer-cta">Mở việc <ArrowUpRight aria-hidden="true" size={13} /></WorkTrigger>
-      <div className="footer-bottom"><span>© 2026 · BẢN PREVIEW TƯƠNG TÁC</span><span>CHỜ FOUNDER DUYỆT · KHÔNG PUBLIC</span><a href="#top">Về đầu trang ↑</a></div>
+      <div className="footer-main">
+        <div className="footer-identity">
+          <a className="wordmark footer-wordmark" href="#top"><span className="wordmark-mark" aria-hidden="true">E</span><span>Giải pháp của<br className="wordmark-break" /> Ecom’s Diary</span></a>
+          <p className="footer-message">Một việc kinh doanh.<br /><em>Nhiều cách ghép team.</em></p>
+          <p className="footer-description">Partner đề xuất hướng giải. Client quyết định phạm vi, nguồn lực và cam kết.</p>
+        </div>
+        <nav className="footer-nav" aria-label="Điều hướng chân trang">
+          <span className="footer-kicker">KHÁM PHÁ</span>
+          <a href="#why">Vì sao có thể phối hợp</a>
+          <a href="#flow">Cách ghép team</a>
+          <a href="#start">Các cách bắt đầu</a>
+        </nav>
+        <div className="footer-connect">
+          <span className="footer-kicker">KẾT NỐI</span>
+          <p className="footer-social-pending">Liên kết social chính thức sẽ được bổ sung khi có URL đã xác nhận.</p>
+          <p className="footer-contact-pending">Thông tin liên hệ công khai chưa được bàn giao.</p>
+        </div>
+        <div className="footer-action">
+          <span className="footer-kicker">BƯỚC TIẾP THEO</span>
+          <p>Chia sẻ bối cảnh để bắt đầu xem xét các hướng có thể có.</p>
+          <WorkTrigger variant="outline" className="footer-cta">Mở việc <ArrowUpRight aria-hidden="true" size={13} /></WorkTrigger>
+        </div>
+      </div>
     </footer>
   );
 }
