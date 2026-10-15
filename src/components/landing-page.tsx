@@ -1,7 +1,7 @@
 "use client";
 
 import { lazy, Suspense, useContext, useReducer, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -15,6 +15,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { SiFacebook, SiInstagram, SiTiktok } from "react-icons/si";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -29,7 +30,9 @@ const resources = [
   { id: "inhouse", name: "In-house", type: "NỘI LỰC", detail: "Người hiểu sản phẩm, khách hàng và nhịp vận hành bên trong doanh nghiệp.", tag: "Nền tảng bạn đang có", symbol: "◒" },
   { id: "agency", name: "Agency", type: "ĐỘI NGŨ CHUYÊN MÔN", detail: "Một nhóm có thể cùng triển khai các đầu việc liên kết trong phạm vi đã thống nhất.", tag: "Bổ sung năng lực triển khai", symbol: "▤" },
   { id: "freelancer", name: "Freelancer", type: "CHUYÊN GIA ĐỘC LẬP", detail: "Một chuyên môn cụ thể, có thể tham gia theo phạm vi và thời điểm phù hợp.", tag: "Bổ sung một năng lực cụ thể", symbol: "✳" },
-];
+] as const;
+
+type ResourceId = (typeof resources)[number]["id"];
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="eyebrow">{children}</p>;
@@ -180,7 +183,26 @@ function PainSection({
 }
 
 function ResourceSection() {
+  const [selectedResources, setSelectedResources] = useState<ResourceId[]>(["inhouse"]);
   const resourceGridRef = useScrollReveal<HTMLDivElement>();
+  const selectedNames = resources.filter((resource) => selectedResources.includes(resource.id)).map((resource) => resource.name);
+  const coordinationCopy = selectedResources.length === 0
+    ? "Chọn một nguồn lực để xem ví dụ phối hợp. Đây không phải cấu hình đã được Partner thẩm định."
+    : selectedResources.length === 1 && selectedResources[0] === "inhouse"
+      ? "Có thể giữ đội ngũ đang có; việc bổ sung nguồn lực chỉ được xem xét sau khi phạm vi đã rõ."
+      : `Đây là ví dụ phối hợp ${selectedNames.join(" + ")}. Client vẫn quyết định vai trò, phạm vi và cam kết.`;
+
+  function toggleResource(id: ResourceId) {
+    setSelectedResources((current) => current.includes(id)
+      ? current.filter((resource) => resource !== id)
+      : [...current, id]);
+  }
+
+  function handleResourceKeyDown(event: KeyboardEvent<HTMLElement>, id: ResourceId) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    toggleResource(id);
+  }
 
   return (
     <section className="why-section section-wrap section-pad" id="why" aria-labelledby="why-title">
@@ -190,16 +212,29 @@ function ResourceSection() {
         <p>Mỗi cách làm có một vai trò. Một hướng giải có thể cần một cấu hình team khác; bạn có thể giữ team hiện tại và bổ sung phần còn thiếu.</p>
       </div>
       <div className="resource-grid" ref={resourceGridRef}>
-        {resources.map((resource, index) => (
-          <article className={`resource-card${index === 0 ? " resource-current" : ""}`} key={resource.id}>
+        {resources.map((resource, index) => {
+          const selected = selectedResources.includes(resource.id);
+          return (
+          <article
+            className={`resource-card resource-choice${selected ? " is-selected" : ""}`}
+            key={resource.id}
+            data-resource={resource.id}
+            role="button"
+            tabIndex={0}
+            aria-pressed={selected}
+            onClick={() => toggleResource(resource.id)}
+            onKeyDown={(event) => handleResourceKeyDown(event, resource.id)}
+          >
             <div className="resource-card-head"><span className="resource-number">0{index + 1}</span><span className="resource-symbol" aria-hidden="true">{resource.symbol}</span></div>
             <p className="resource-type">{resource.type}</p><h3>{resource.name}</h3>
             <p>{resource.detail}</p>
             <span className="resource-tag">{resource.tag}</span>
+            <span className="resource-select-state">{selected ? "Đang chọn · nhấn để bỏ chọn" : "Chọn để xem phối hợp"}</span>
           </article>
-        ))}
+          );
+        })}
       </div>
-      <div className="coordination-note"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><p><strong>Điều quan trọng là cách phối hợp.</strong> Partner chuyên môn đề xuất hướng và nguồn lực phù hợp. Client giữ quyền quyết định về phạm vi, team và cam kết.</p><DemoStamp>DEMO<br />KHÁI NIỆM</DemoStamp></div>
+      <div className="coordination-note" aria-live="polite" aria-atomic="true"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><div><p><strong>{selectedNames.length ? `Nguồn lực đang xem: ${selectedNames.join(" + ")}` : "Chưa chọn nguồn lực minh họa"}</strong></p><p>{coordinationCopy}</p></div><DemoStamp>DEMO<br />KHÁI NIỆM</DemoStamp></div>
     </section>
   );
 }
@@ -395,7 +430,12 @@ function Footer() {
         </nav>
         <div className="footer-connect">
           <span className="footer-kicker">KẾT NỐI</span>
-          <p className="footer-social-pending">Liên kết social chính thức sẽ được bổ sung khi có URL đã xác nhận.</p>
+          <ul className="footer-social-list" aria-label="Facebook, Instagram và TikTok">
+            <li><span><SiFacebook aria-hidden="true" focusable="false" />Facebook</span></li>
+            <li><span><SiInstagram aria-hidden="true" focusable="false" />Instagram</span></li>
+            <li><span><SiTiktok aria-hidden="true" focusable="false" />TikTok</span></li>
+          </ul>
+          <p className="footer-social-pending">Chờ URL tài khoản chính thức để tạo liên kết.</p>
           <p className="footer-contact-pending">Thông tin liên hệ công khai chưa được bàn giao.</p>
         </div>
         <div className="footer-action">

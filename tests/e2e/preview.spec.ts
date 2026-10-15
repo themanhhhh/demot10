@@ -26,7 +26,10 @@ test("serves the private preview with forms hidden and public metadata", async (
   await expect(page.locator(".footer-bottom")).toHaveCount(0);
   await expect(page.getByRole("contentinfo")).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Điều hướng chân trang" })).toBeVisible();
-  await expect(page.getByText("Liên kết social chính thức sẽ được bổ sung khi có URL đã xác nhận.")).toBeVisible();
+  await expect(page.getByRole("list", { name: "Facebook, Instagram và TikTok" })).toContainText("Facebook");
+  await expect(page.getByRole("list", { name: "Facebook, Instagram và TikTok" })).toContainText("Instagram");
+  await expect(page.getByRole("list", { name: "Facebook, Instagram và TikTok" })).toContainText("TikTok");
+  await expect(page.getByText("Chờ URL tài khoản chính thức để tạo liên kết.")).toBeVisible();
 });
 
 test("loads the self-hosted Vietnamese editorial font", async ({ page }) => {
@@ -72,6 +75,24 @@ test("scenario and solution changes reset dependent Team Builder state", async (
   await expect(page.getByText("Chưa chọn cấu hình", { exact: true })).toBeVisible();
 });
 
+test("resource cards toggle with pointer and keyboard and update the coordination note", async ({ page }) => {
+  const inHouse = page.locator('[data-resource="inhouse"]');
+  const agency = page.locator('[data-resource="agency"]');
+
+  await expect(inHouse).toHaveAttribute("aria-pressed", "true");
+  await agency.click();
+  await expect(agency).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".coordination-note")).toContainText("In-house + Agency");
+
+  await inHouse.press("Space");
+  await expect(inHouse).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator(".coordination-note")).toContainText("Agency");
+
+  await agency.press("Enter");
+  await expect(agency).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator(".coordination-note")).toContainText("Chưa chọn nguồn lực minh họa");
+});
+
 test("Form A keeps its draft on Back, validates locally and only confirms a DEMO", async ({ page }) => {
   const posts: string[] = [];
   page.on("request", (request) => {
@@ -97,10 +118,10 @@ test("Form A keeps its draft on Back, validates locally and only confirms a DEMO
   await form.getByRole("radio", { name: "Tôi là người quyết định cuối cùng" }).click();
   await form.getByLabel("Họ và tên").fill("Người dùng demo");
   await form.getByLabel("Điện thoại / Zalo").fill("0000000000");
-  await form.getByRole("checkbox", { name: /Tôi xác nhận đây là dữ liệu giả lập/ }).click();
-  await form.getByRole("button", { name: "Xem xác nhận DEMO" }).click();
+  await form.getByRole("checkbox", { name: "Tôi xác nhận đã đọc thông tin này." }).click();
+  await form.getByRole("button", { name: "Hoàn tất xem trước" }).click();
 
-  await expect(form.getByText("Đây là mô phỏng · CHƯA GỬI THẬT")).toBeVisible();
+  await expect(form.getByText("Đã hoàn tất bước xem trước")).toBeVisible();
   expect(posts).toEqual([]);
 });
 
@@ -118,7 +139,7 @@ test("Form B validates both steps, enforces the two-choice limit and retains its
   await channel.selectOption({ label: "Mạng xã hội" });
   await expect(channel).toHaveValue("social");
   await form.getByRole("button", { name: "Tiếp tục" }).click();
-  await expect(form.getByText("Bước 2 / 2 · Không gửi thật")).toBeVisible();
+  await expect(form.getByText("Bước 2 / 2 · Không gửi dữ liệu")).toBeVisible();
 
   await form.getByRole("checkbox", { name: "Chưa rõ hướng ưu tiên" }).click();
   await form.getByRole("checkbox", { name: "Thiếu năng lực chuyên môn" }).click();
@@ -129,13 +150,13 @@ test("Form B validates both steps, enforces the two-choice limit and retains its
   await form.getByRole("radio", { name: "Tôi cùng tham gia quyết định" }).click();
   await form.getByLabel("Họ và tên").fill("Người dùng demo");
   await form.getByLabel("Điện thoại / Zalo").fill("0000000000");
-  await form.getByRole("checkbox", { name: /Tôi xác nhận đây là dữ liệu giả lập/ }).click();
+  await form.getByRole("checkbox", { name: "Tôi xác nhận đã đọc thông tin này." }).click();
 
   await form.getByRole("button", { name: "Quay lại bước 1" }).click();
   await expect(form.getByLabel("Bạn muốn giải quyết việc gì?")).toHaveValue("Bối cảnh demo");
   await form.getByRole("button", { name: "Tiếp tục" }).click();
-  await form.getByRole("button", { name: "Xem xác nhận DEMO" }).click();
-  await expect(form.getByText("Đây là mô phỏng · CHƯA GỬI THẬT")).toBeVisible();
+  await form.getByRole("button", { name: "Hoàn tất xem trước" }).click();
+  await expect(form.getByText("Đã hoàn tất bước xem trước")).toBeVisible();
 });
 
 test("closing the dialog resets the form draft and restores focus to its trigger", async ({ page }) => {

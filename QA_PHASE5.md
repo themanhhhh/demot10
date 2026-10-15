@@ -26,8 +26,9 @@ These are browser emulations, not physical Android or iOS devices. They do not r
 ## Acceptance coverage
 
 - Public title/robots metadata remains branded and `noindex`; forms are absent until MỞ VIỆC is opened.
+- In-house/Agency/Freelancer resource cards toggle with pointer and keyboard and update the DEMO coordination note.
 - Pain → solution → configuration state remains valid; changing a parent choice clears dependent selections.
-- Form A validates required values, retains its draft on Back, and shows only a DEMO confirmation without a non-GET request.
+- Form A validates required values, retains its draft on Back, and shows a local preview confirmation without a non-GET request.
 - Form B validates both steps, requires a participant, caps optional difficulties at two, and preserves the tried-details branch and draft when navigating Back.
 - Closing/Escape clears the form session and restores focus to the opening CTA.
 - Core interactions produce no browser page errors, console errors, external requests, or form submissions.

@@ -8,7 +8,7 @@ export const formASchema = z.object({
   authority: z.string().min(1, "Hãy chọn vai trò quyết định."),
   name: z.string().trim().min(1, "Hãy nhập tên giả lập."),
   phone: z.string().trim().min(1, "Hãy nhập số điện thoại giả lập."),
-  consent: z.boolean().refine((value) => value, { message: "Cần xác nhận đây là dữ liệu giả lập." }),
+  consent: z.boolean().refine((value) => value, { message: "Hãy xác nhận đã đọc thông tin xử lý dữ liệu." }),
 });
 
 export const formBSchema = z.object({
@@ -22,7 +22,7 @@ export const formBSchema = z.object({
   triedDetails: z.string(),
   name: z.string().trim().min(1, "Hãy nhập tên giả lập."),
   phone: z.string().trim().min(1, "Hãy nhập số điện thoại giả lập."),
-  consent: z.boolean().refine((value) => value, { message: "Cần xác nhận đây là dữ liệu giả lập." }),
+  consent: z.boolean().refine((value) => value, { message: "Hãy xác nhận đã đọc thông tin xử lý dữ liệu." }),
 });
 
 export type FormAValues = z.infer<typeof formASchema>;

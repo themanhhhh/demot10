@@ -91,12 +91,16 @@ function DecisionField({
   );
 }
 
+const previewDataNotice = "Biểu mẫu chưa kết nối hệ thống tiếp nhận. Thông tin bạn nhập chỉ tồn tại trong phiên xem trước này, không được gửi đi hoặc lưu thành hồ sơ.";
+
 function ConsentField({
+  label,
   checked,
   onChange,
   error,
   id,
 }: {
+  label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
   error?: ErrorLike;
@@ -107,7 +111,7 @@ function ConsentField({
       <CheckboxChoice
         id={id}
         className="consent-row"
-        label="Tôi xác nhận đây là dữ liệu giả lập và hiểu rằng thông tin sẽ không được gửi đi hoặc lưu lại."
+        label={label}
         checked={checked}
         onCheckedChange={onChange}
         errorId={error ? `${id}-error` : undefined}
@@ -121,7 +125,7 @@ function DemoResult() {
   return (
     <div className="form-result" role="status">
       <span className="result-icon" aria-hidden="true"><Check size={13} /></span>
-      <div><strong>Đây là mô phỏng · CHƯA GỬI THẬT</strong><p>Không có thông tin nào được chuyển đi hoặc lưu lại. Cảm ơn bạn đã xem trước luồng này.</p></div>
+      <div><strong>Đã hoàn tất bước xem trước</strong><p>Thông tin bạn nhập không được gửi đi hoặc lưu thành hồ sơ.</p></div>
     </div>
   );
 }
@@ -167,12 +171,13 @@ function FormA({ active }: { active: boolean }) {
         <label className="field-label" htmlFor="a-phone">Điện thoại / Zalo</label><input id="a-phone" type="tel" autoComplete="off" placeholder="Số giả lập" aria-invalid={Boolean(errors.phone)} {...register("phone")} /><FieldError error={errors.phone} id="a-phone-error" />
       </fieldset>
       <fieldset className="form-group consent-group">
-        <legend><span>05</span> Xác nhận DEMO <i>* Bắt buộc</i></legend>
+        <legend><span>05</span> Thông tin xử lý <i>* Xác nhận đã đọc</i></legend>
+        <p className="field-hint">{previewDataNotice}</p>
         <Controller name="consent" control={control} render={({ field }) => (
-          <ConsentField checked={field.value} onChange={field.onChange} error={errors.consent} id="a-consent" />
+          <ConsentField label="Tôi xác nhận đã đọc thông tin này." checked={field.value} onChange={field.onChange} error={errors.consent} id="a-consent" />
         )} />
       </fieldset>
-      <div className="form-actions"><Button type="submit">Xem xác nhận DEMO <ArrowUpRight aria-hidden="true" size={13} /></Button><span>Không gửi thật · Không thanh toán</span></div>
+      <div className="form-actions"><Button type="submit">Hoàn tất xem trước <ArrowUpRight aria-hidden="true" size={13} /></Button><span>Không gửi dữ liệu · Không lưu hồ sơ</span></div>
       {submitted && <DemoResult />}
     </form>
   );
@@ -318,11 +323,12 @@ function FormB({ active }: { active: boolean }) {
           <legend><span>08</span> Cách liên hệ <i>* Bắt buộc</i></legend>
           <label className="field-label" htmlFor="b-name">Họ và tên</label><input id="b-name" autoComplete="off" placeholder="Tên giả lập" aria-invalid={Boolean(errors.name)} {...register("name")} /><FieldError error={errors.name} id="b-name-error" />
           <label className="field-label" htmlFor="b-phone">Điện thoại / Zalo</label><input id="b-phone" type="tel" autoComplete="off" placeholder="Số giả lập" aria-invalid={Boolean(errors.phone)} {...register("phone")} /><FieldError error={errors.phone} id="b-phone-error" />
+          <p className="field-hint">{previewDataNotice}</p>
           <Controller name="consent" control={control} render={({ field }) => (
-            <ConsentField checked={field.value} onChange={field.onChange} error={errors.consent} id="b-consent" />
+            <ConsentField label="Tôi xác nhận đã đọc thông tin này." checked={field.value} onChange={field.onChange} error={errors.consent} id="b-consent" />
           )} />
         </fieldset>
-        <div className="form-actions"><Button type="submit">Xem xác nhận DEMO <ArrowUpRight aria-hidden="true" size={13} /></Button><span>Bước 2 / 2 · Không gửi thật</span></div>
+        <div className="form-actions"><Button type="submit">Hoàn tất xem trước <ArrowUpRight aria-hidden="true" size={13} /></Button><span>Bước 2 / 2 · Không gửi dữ liệu</span></div>
         <button className="back-link step-back" type="button" onClick={() => setStep(1)}><ArrowLeft aria-hidden="true" size={12} /> Quay lại bước 1</button>
       </div>
       {submitted && <DemoResult />}
