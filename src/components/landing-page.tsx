@@ -97,7 +97,7 @@ function Header() {
 
 function Hero() {
   const heroCopyRef = useScrollReveal<HTMLDivElement>(".eyebrow, h1, .hero-intro, .hero-actions, .hero-note");
-  const heroArtRef = useScrollReveal<HTMLElement>();
+  const heroArtRef = useScrollReveal<HTMLElement>(".chess-reference-image");
   const chessSceneSpotlight = usePointerSpotlight<HTMLDivElement>();
 
   return (
@@ -202,7 +202,7 @@ function PainSection({
 
 function ResourceSection() {
   const [selectedResources, setSelectedResources] = useState<ResourceId[]>(["inhouse"]);
-  const headingRef = useScrollReveal<HTMLDivElement>(".section-topline, .why-heading-row");
+  const headingRef = useScrollReveal<HTMLDivElement>(".section-topline, .why-heading-row h2, .why-heading-row > p");
   const resourceGridRef = useScrollReveal<HTMLDivElement>(".resource-card");
   const coordinationRef = useScrollReveal<HTMLDivElement>();
   const selectedNames = resources.filter((resource) => selectedResources.includes(resource.id)).map((resource) => resource.name);
@@ -290,7 +290,7 @@ function FlowSection({
   state: DemoState;
   dispatch: (action: DemoAction) => void;
 }) {
-  const flowHeadingRef = useScrollReveal<HTMLElement>(".section-topline, .flow-heading-row, .flow-steps");
+  const flowHeadingRef = useScrollReveal<HTMLElement>(".section-topline, .flow-heading-row h2, .flow-intro, .flow-aside, .flow-steps");
   const builderRef = useScrollReveal<HTMLDivElement>(".builder-block, .deal-preview");
   const dealPreviewRef = useRef<HTMLElement>(null);
   const previousBuilderSelectionRef = useRef({ scenarioId: state.scenarioId, solutionId: state.solutionId });
@@ -564,7 +564,7 @@ function StartSection() {
 }
 
 function Footer() {
-  const footerRef = useScrollReveal<HTMLElement>(".footer-main > *");
+  const footerRef = useScrollReveal<HTMLElement>(".footer-wordmark, .footer-message, .footer-description, .footer-kicker, .footer-nav a, .footer-social-list, .footer-social-pending, .footer-contact-pending, .footer-action > p, .footer-cta");
 
   return (
     <footer className="site-footer" ref={footerRef}>
