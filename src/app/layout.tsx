@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import SitePreloader from "@/components/site-preloader";
 import "./globals.css";
 
 const publicName = "Giải pháp của Ecom’s Diary";
@@ -29,7 +30,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="vi">
-      <body>{children}</body>
+      <body>
+        <SitePreloader />
+        {children}
+      </body>
     </html>
   );
 }
