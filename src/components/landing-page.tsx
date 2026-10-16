@@ -149,12 +149,12 @@ function PainSection({
   return (
     <section className="pain-section section-wrap section-pad" aria-labelledby="pain-title">
       <div className="section-heading" ref={headingRef}>
-        <Eyebrow>00 <span className="eyebrow-line" /> Case thực tế tại Việt Nam</Eyebrow>
-        <h2 id="pain-title">Những cách làm<br /><em>đã được công bố.</em></h2>
-        <p>Ba case thương mại điện tử Việt Nam. Cách làm và số liệu được TikTok for Business công bố; chọn từng case để xem nguồn.</p>
+        <Eyebrow>00 <span className="eyebrow-line" /> Nhận diện tình huống</Eyebrow>
+        <h2 id="pain-title">Bạn đang gặp<br /><em>chuyện gì?</em></h2>
+        <p>Chọn vấn đề gần với bối cảnh doanh nghiệp của bạn. Đây là điểm bắt đầu để xác định điều cần làm rõ.</p>
       </div>
       <div className="pain-side">
-        <div className="pain-grid" ref={painGridRef} role="group" aria-label="Chọn một case thực tế">
+        <div className="pain-grid" ref={painGridRef} role="group" aria-label="Chọn tình huống kinh doanh">
           {demoScenarios.map((scenario, index) => (
             <button
               className={`pain-card${state.scenarioId === scenario.id ? " is-selected" : ""}`}
@@ -167,13 +167,13 @@ function PainSection({
               <span className="pain-number">0{index + 1}</span>
               <span className="pain-icon" aria-hidden="true">{index === 0 ? <ArrowUpRight size={17} /> : index === 1 ? "♜" : <Sparkles size={16} />}</span>
               <span className="pain-card-title">{scenario.painLabel}</span>
-              <span className="pain-select">{state.scenarioId === scenario.id ? "Đang xem case" : "Xem case"}<ArrowUpRight aria-hidden="true" size={10} /></span>
+              <span className="pain-select">{state.scenarioId === scenario.id ? "Đang chọn" : "Chọn tình huống"}<ArrowUpRight aria-hidden="true" size={10} /></span>
             </button>
           ))}
         </div>
         <div className="pain-response" ref={responseRef} aria-live="polite" aria-atomic="true">
           <span className="response-mark" aria-hidden="true"><MoveRight size={16} /></span>
-          <div><p className="response-kicker">{selectedScenario.caseResult}</p><p>{selectedScenario.response}</p><a className="case-source-link" href={selectedScenario.caseSourceUrl} target="_blank" rel="noreferrer">Nguồn: {selectedScenario.caseSourceName} <ArrowUpRight size={12} aria-hidden="true" /></a></div>
+          <div><p className="response-kicker">Các khía cạnh cần xem xét</p><p>{selectedScenario.response}</p></div>
         </div>
       </div>
     </section>

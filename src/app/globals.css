@@ -138,7 +138,6 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .pain-response div p:last-child { margin: 0; color: #686961; font-size: 13px; line-height: 1.55; }
 .pain-response div p:not(:last-child) { margin: 0 0 5px; }
 .pain-response .response-kicker { color: var(--burgundy); font-weight: 700; }
-.case-source-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; color: var(--burgundy); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 .preview-stamp { padding: 6px 8px; border: 1px solid #c8aeb0; color: var(--burgundy); text-align: center; text-transform: uppercase; letter-spacing: .1em; font-size: 13px; line-height: 1.45; font-weight: 750; }
 
 .why-section { background: #f0ece4; width: 100%; padding-inline: max(48px, calc((100% - 1280px) / 2)); }
