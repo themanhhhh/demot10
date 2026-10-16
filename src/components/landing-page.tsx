@@ -1,6 +1,6 @@
 "use client";
 
-import { lazy, Suspense, useContext, useReducer, useRef, useState } from "react";
+import { lazy, Suspense, useContext, useEffect, useReducer, useRef, useState } from "react";
 import type { ComponentPropsWithoutRef, KeyboardEvent, ReactNode } from "react";
 import Image from "next/image";
 import gsap from "gsap";
@@ -80,8 +80,17 @@ function SpotlightButton({ className = "", children, ...props }: ComponentPropsW
 }
 
 function Header() {
+  const [isFloating, setIsFloating] = useState(false);
+
+  useEffect(() => {
+    const updatePosition = () => setIsFloating(window.scrollY > 32);
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, { passive: true });
+    return () => window.removeEventListener("scroll", updatePosition);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${isFloating ? " is-floating" : ""}`}>
       <a className="wordmark" href="#top" aria-label="Giải pháp của Ecom’s Diary, về đầu trang">
         <span className="wordmark-mark" aria-hidden="true">E</span>
         <span>Giải pháp của<br className="wordmark-break" /> Ecom’s Diary</span>

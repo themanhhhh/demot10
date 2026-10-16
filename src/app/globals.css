@@ -60,7 +60,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .skip-link { position: fixed; z-index: 50; top: 8px; left: 8px; padding: 10px 14px; background: var(--ink); color: white; transform: translateY(-160%); }
 .skip-link:focus { transform: translateY(0); }
-.site-header { width: min(100% - 64px, 1360px); height: 82px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid #d8d0c5; }
+.site-header { position: sticky; z-index: 40; top: 12px; width: min(100% - 64px, 1360px); height: 72px; margin: 12px auto 0; padding: 0 18px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border: 1px solid transparent; background: transparent; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, backdrop-filter .25s ease; }
+.site-header.is-floating { border-color: #d8d0c5; background: #f7f4edeb; box-shadow: 0 12px 32px #21161316; backdrop-filter: blur(14px); }
 .wordmark { width: fit-content; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 13px; line-height: 1.15; letter-spacing: .015em; font-weight: 700; }
 .wordmark-mark { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid var(--burgundy); color: var(--burgundy); font: 20px/1 var(--serif); }
 .wordmark-break { display: none; }
@@ -428,7 +429,7 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
   .preloader-counter { margin-bottom: 12px; font-size: clamp(82px, 24vw, 126px); }
   .preloader-caption { font-size: clamp(22px, 6vw, 29px); }
   .preloader-footer { min-height: 53px; gap: 10px; font-size: 13px; }
-  .site-header { width: calc(100% - 34px); height: 65px; grid-template-columns: 1fr auto; }
+  .site-header { top: 8px; width: calc(100% - 34px); height: 58px; padding: 0 10px; grid-template-columns: 1fr auto; }
   .wordmark { gap: 8px; font-size: 13px; }
   .wordmark-mark { width: 27px; height: 27px; font-size: 18px; }
   .main-nav { display: none; }
