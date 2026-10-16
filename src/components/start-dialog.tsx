@@ -144,14 +144,14 @@ function SubmissionResult({ error }: { error: string | null }) {
   );
 }
 
-function FormA({ active }: { active: boolean }) {
+function FormA({ active, initialTask = "" }: { active: boolean; initialTask?: string }) {
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const firstTaskRef = useRef<HTMLTextAreaElement>(null);
   const submissionIdRef = useRef<string | null>(null);
   const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormAValues>({
     resolver: zodResolver(formASchema),
-    defaultValues: defaultFormAValues,
+    defaultValues: { ...defaultFormAValues, task: initialTask },
     mode: "onTouched",
   });
   const taskField = register("task");
@@ -410,8 +410,8 @@ function RoutePicker({
   );
 }
 
-export function StartDialogContent() {
-  const [route, setRoute] = useState<"a" | "b" | null>(null);
+export function StartDialogContent({ initialTask = "" }: { initialTask?: string }) {
+  const [route, setRoute] = useState<"a" | "b" | null>(initialTask ? "a" : null);
   const routePickerRef = useRef<HTMLDivElement>(null);
   const { restoreTrigger } = useContext(DialogFocusContext);
 
@@ -453,7 +453,7 @@ export function StartDialogContent() {
                 <Dialog.Description asChild><p className="form-warning">{route === "a" ? "Chia sẻ những thông tin cần thiết để Ecom’s Diary xem xét yêu cầu và liên hệ trao đổi thêm." : "Các thông tin dưới đây giúp Ecom’s Diary hiểu bối cảnh trước khi liên hệ với bạn."}</p></Dialog.Description>
               </div>
             )}
-            <FormA active={route === "a"} />
+            <FormA active={route === "a"} initialTask={initialTask} />
             <FormB active={route === "b"} />
           </div>
         </div>

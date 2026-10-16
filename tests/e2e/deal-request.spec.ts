@@ -1,0 +1,44 @@
+import { expect, test } from "@playwright/test";
+
+test("team selection becomes a real lead request and failed delivery can be retried", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const flow = page.locator("#flow");
+  const continueButton = flow.getByRole("button", { name: "Tiếp tục gửi yêu cầu" });
+  await expect(continueButton).toBeDisabled();
+  await flow.getByRole("button", { name: /Làm rõ hành trình chuyển đổi/ }).click();
+  await flow.locator('[data-configuration="ads-conversion-specialist"]').click();
+  await flow.getByLabel("Mục tiêu và phạm vi mong muốn").fill("Tăng tỷ lệ chuyển đổi trong 3 tháng");
+  await flow.getByLabel("Ngân sách dự kiến").fill("30 triệu/tháng");
+  await flow.getByLabel("Thời gian mong muốn").fill("Tháng 11");
+  await continueButton.click();
+  const dialog = page.getByRole("dialog");
+  const task = dialog.locator("#a-task");
+  await expect(task).toHaveValue(/Team: Team hiện tại \+ chuyên gia/);
+  await expect(task).toHaveValue(/30 triệu\/tháng/);
+  await expect(task).toHaveValue(/Tháng 11/);
+  await dialog.locator("#a-company").fill("Doanh nghiệp kiểm thử");
+  await dialog.locator("#a-product").fill("Sản phẩm kiểm thử");
+  await dialog.locator("#a-channel").fill("Website");
+  await dialog.getByRole("radio", { name: "Tôi là người quyết định chính", exact: true }).click();
+  await dialog.locator("#a-name").fill("Nguyễn An");
+  await dialog.locator("#a-phone").fill("0901234567");
+  await dialog.locator("#a-consent").check();
+  const attempts: Array<{ submissionId: string; form: { task: string } }> = [];
+  await page.route("**/api/leads", async (route) => {
+    attempts.push(route.request().postDataJSON());
+    await route.fulfill({ status: attempts.length === 1 ? 502 : 202, json: attempts.length === 1 ? { error: "Thử lại" } : { received: true } });
+  });
+  await dialog.getByRole("button", { name: "Gửi yêu cầu", exact: true }).click();
+  await expect(dialog.getByRole("alert")).toContainText("Chưa gửi được thông tin");
+  await expect(task).toHaveValue(/Tăng tỷ lệ chuyển đổi/);
+  await dialog.getByRole("button", { name: "Gửi yêu cầu", exact: true }).click();
+  await expect(dialog.getByText("Đã gửi thông tin", { exact: true })).toBeVisible();
+  expect(attempts).toHaveLength(2);
+  expect(attempts[1].submissionId).toBe(attempts[0].submissionId);
+  expect(attempts[1].form.task).toContain("Hướng triển khai: Làm rõ hành trình chuyển đổi");
+  await page.keyboard.press("Escape");
+  await expect(continueButton).toBeFocused();
+  await flow.getByRole("button", { name: "Team hiện tại đang quá tải", exact: true }).click();
+  await expect(continueButton).toBeDisabled();
+});

@@ -2,6 +2,8 @@
 
 Landing page with Form A/B lead submission through a server-side webhook. The app validates and forwards submissions but does not store them.
 
+The team builder creates a work request: select a business situation, solution and team, optionally add objectives, budget and timing, then continue to Form A. The selected brief is prefilled and editable, and is sent in `data.task` with the business and contact details. Closing the dialog clears the contact form; builder choices remain available on the page. The request is confirmed only after delivery succeeds. Team availability and commercial terms are agreed during follow-up.
+
 ## Run locally
 
 ```sh

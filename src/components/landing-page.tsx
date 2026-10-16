@@ -286,10 +286,15 @@ function ResourceCard({
 function FlowSection({
   state,
   dispatch,
+  onStart,
 }: {
   state: DemoState;
   dispatch: (action: DemoAction) => void;
+  onStart: (brief: string, trigger: HTMLButtonElement) => void;
 }) {
+  const [objective, setObjective] = useState("");
+  const [budget, setBudget] = useState("");
+  const [timeline, setTimeline] = useState("");
   const flowHeadingRef = useScrollReveal<HTMLElement>(".section-topline, .flow-heading-row h2, .flow-intro, .flow-aside, .flow-steps");
   const builderRef = useScrollReveal<HTMLDivElement>(".builder-block, .deal-preview");
   const dealPreviewRef = useRef<HTMLElement>(null);
@@ -367,13 +372,13 @@ function FlowSection({
     <section ref={flowHeadingRef} className="flow-section section-wrap section-pad" id="flow" aria-labelledby="flow-title">
        <div className="section-topline"><Eyebrow>02 <span className="eyebrow-line" /> Từ việc đến Deal</Eyebrow></div>
       <div className="flow-heading-row">
-        <div><h2 id="flow-title">Một việc. Những hướng<br /><em>giải khác nhau.</em></h2><p className="flow-intro">Chọn một tình huống, xem các hướng giải và cấu hình team giả định. Không có Partner, báo giá hay kết quả thực được đại diện ở đây.</p></div>
+        <div><h2 id="flow-title">Một việc. Những hướng<br /><em>giải khác nhau.</em></h2><p className="flow-intro">Chọn việc cần giải quyết, hướng triển khai và team bạn cần. Bổ sung mục tiêu để gửi yêu cầu làm việc đến Ecom’s Diary.</p></div>
         <div className="flow-aside"><span className="aside-num">4</span><span>bước để làm rõ<br />một Deal</span></div>
       </div>
 
       <div className="flow-steps" aria-label="Các bước hình thành Deal">
         <div className="flow-step is-complete" data-step="1"><span>01</span><b>Việc</b></div><ArrowRight className="step-arrow" aria-hidden="true" size={13} />
-        <div className={`flow-step${state.solutionId ? " is-complete" : " is-active"}`} data-step="2" aria-current={!state.solutionId ? "step" : undefined}><span>02</span><b>Partner đề xuất</b></div><ArrowRight className="step-arrow" aria-hidden="true" size={13} />
+        <div className={`flow-step${state.solutionId ? " is-complete" : " is-active"}`} data-step="2" aria-current={!state.solutionId ? "step" : undefined}><span>02</span><b>Chọn hướng giải</b></div><ArrowRight className="step-arrow" aria-hidden="true" size={13} />
         <div className={`flow-step${state.configurationId ? " is-complete" : state.solutionId ? " is-active" : ""}`} data-step="3" aria-current={state.solutionId && !state.configurationId ? "step" : undefined}><span>03</span><b>Hướng giải + team</b></div><ArrowRight className="step-arrow" aria-hidden="true" size={13} />
         <div className={`flow-step${state.configurationId ? " is-active" : ""}`} data-step="4" aria-current={state.configurationId ? "step" : undefined}><span>04</span><b>DEAL</b></div>
       </div>
@@ -399,9 +404,9 @@ function FlowSection({
           </div>
 
           <div className="builder-block">
-            <div className="builder-label"><span className="builder-step">B</span><div><p>CƠ CHẾ PARTNER ĐỀ XUẤT · MINH HỌA</p><h3>Các hướng có thể xem xét</h3></div></div>
-            <p className="builder-help">Một tình huống có thể có nhiều hướng. Các hướng dưới đây chưa phải khuyến nghị cho doanh nghiệp thật.</p>
-            <div className="direction-list" role="group" aria-label="Chọn một hướng giải minh họa">
+            <div className="builder-label"><span className="builder-step">B</span><div><p>CHỌN HƯỚNG TRIỂN KHAI</p><h3>Bạn muốn bắt đầu từ đâu?</h3></div></div>
+            <p className="builder-help">Chọn ưu tiên để đội ngũ tiếp nhận làm rõ phạm vi và đề xuất bước triển khai.</p>
+            <div className="direction-list" role="group" aria-label="Chọn một hướng giải">
               {selectedScenario.solutions.map((solution, index) => (
                 <SpotlightButton
                   className={`direction-button${state.solutionId === solution.id ? " is-selected" : ""}`}
@@ -420,7 +425,7 @@ function FlowSection({
             <div className="builder-label"><span className="builder-step">C</span><div><p>CLIENT CHỌN CẤU HÌNH</p><h3>Nhiều cách ghép team</h3></div></div>
             <p className="builder-help">Một hướng có thể có nhiều cấu hình team. Client quyết định sau khi làm rõ vai trò, phạm vi và cam kết.</p>
             {selectedSolution ? (
-              <div className="team-options configuration-options" role="group" aria-label="Chọn cấu hình team minh họa">
+              <div className="team-options configuration-options" role="group" aria-label="Chọn cấu hình team">
                 {selectedSolution.configurations.map((configuration) => (
                   <SpotlightButton
                     className={`team-option configuration-option${state.configurationId === configuration.id ? " is-selected" : ""}`}
@@ -436,24 +441,41 @@ function FlowSection({
                 ))}
               </div>
             ) : (
-              <p className="configuration-prompt" role="status">Chọn một hướng giải để xem các cấu hình team minh họa.</p>
+              <p className="configuration-prompt" role="status">Chọn hướng giải trước, sau đó chọn team phù hợp với nhu cầu của bạn.</p>
             )}
           </div>
         </div>
 
-        <aside ref={dealPreviewRef} className="deal-preview" aria-labelledby="deal-title" aria-live="polite" aria-atomic="true">
-          <div className="deal-top"><span className="deal-mark" aria-hidden="true">E</span><PreviewStamp>CẤU HÌNH<br />THAM KHẢO</PreviewStamp></div>
-          <p className="deal-kicker">CẤU HÌNH ĐANG XEM</p><h3 id="deal-title">Một Deal cần rõ điều gì?</h3>
+        <aside ref={dealPreviewRef} className="deal-preview" aria-labelledby="deal-title">
+          <div className="deal-top"><span className="deal-mark" aria-hidden="true">E</span><PreviewStamp>YÊU CẦU<br />LÀM VIỆC</PreviewStamp></div>
+          <p className="deal-kicker">NỘI DUNG YÊU CẦU</p><h3 id="deal-title">Bắt đầu việc của bạn.</h3>
           <div className="deal-situation"><span>VIỆC</span><p>{selectedScenario.problem}</p></div>
-          <div className="deal-situation"><span>HƯỚNG MINH HỌA</span><p>{selectedSolution?.title ?? "Chưa chọn hướng giải"}</p></div>
+          <div className="deal-situation"><span>HƯỚNG TRIỂN KHAI</span><p>{selectedSolution?.title ?? "Chưa chọn hướng giải"}</p></div>
           <div className="deal-situation"><span>NGUỒN LỰC ĐANG CHỌN</span><div className="team-chips">{(selectedResourceLabels.length ? selectedResourceLabels : ["Chưa chọn cấu hình"]).map((team) => <span className="team-chip" key={team}>{team}</span>)}</div></div>
           <div className="deal-divider" />
           <p className="deal-roles"><b>Partner</b> đề xuất hướng. <b>Client</b> quyết định.</p>
           <ul className="deal-checklist">
-            {(selectedConfiguration?.roleDescriptions ?? ["Chọn cấu hình để xem vai trò minh họa."]).map((description) => <li key={description}>{description}</li>)}
+            {(selectedConfiguration?.roleDescriptions ?? ["Chọn team để xác định các vai trò cần tham gia."]).map((description) => <li key={description}>{description}</li>)}
             <li>Deal Lead có thể là một Partner.</li>
           </ul>
-          <p className="deal-disclaimer">Bản trình bày minh họa, không phải đề xuất hay Deal đã hình thành. Chưa có Partner được xác nhận, giá hoặc kết quả bảo đảm.</p>
+          <div className="deal-brief-fields">
+            <label htmlFor="deal-objective">Mục tiêu và phạm vi mong muốn<textarea id="deal-objective" value={objective} onChange={(event) => setObjective(event.target.value)} maxLength={3000} placeholder="Ví dụ: cải thiện tỷ lệ mua hàng trên website trong 3 tháng" rows={3} /></label>
+            <label htmlFor="deal-budget">Ngân sách dự kiến<input id="deal-budget" value={budget} onChange={(event) => setBudget(event.target.value)} maxLength={150} placeholder="Ví dụ: 30–50 triệu/tháng hoặc cần tư vấn" /></label>
+            <label htmlFor="deal-timeline">Thời gian mong muốn<input id="deal-timeline" value={timeline} onChange={(event) => setTimeline(event.target.value)} maxLength={150} placeholder="Ví dụ: bắt đầu trong tháng này" /></label>
+          </div>
+          <Button className="deal-submit" type="button" disabled={!selectedConfiguration} onClick={(event) => {
+            if (!selectedSolution || !selectedConfiguration) return;
+            onStart([
+              `Việc: ${selectedScenario.problem}`,
+              `Hướng triển khai: ${selectedSolution.title}`,
+              `Team: ${selectedConfiguration.title}`,
+              `Vai trò: ${selectedConfiguration.roleDescriptions.join(" ")}`,
+              `Mục tiêu và phạm vi: ${objective.trim() || "Cần trao đổi thêm"}`,
+              `Ngân sách: ${budget.trim() || "Cần tư vấn"}`,
+              `Thời gian: ${timeline.trim() || "Cần thống nhất"}`,
+            ].join("\n"), event.currentTarget);
+          }}>Tiếp tục gửi yêu cầu <ArrowUpRight size={14} aria-hidden="true" /></Button>
+          <p className="deal-disclaimer">{selectedConfiguration ? "Bổ sung thông tin liên hệ ở bước tiếp theo để gửi yêu cầu. Phạm vi, nhân sự và chi phí được thống nhất khi trao đổi." : "Chọn hướng giải và team để tiếp tục gửi yêu cầu."}</p>
         </aside>
       </div>
     </section>
@@ -623,6 +645,7 @@ function DialogFallback({ restoreFocus }: { restoreFocus: () => void }) {
 export default function LandingPage() {
   const [demoState, dispatch] = useReducer(demoReducer, initialDemoState);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [initialTask, setInitialTask] = useState("");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const focusContext = {
     registerTrigger: (trigger: HTMLButtonElement) => { triggerRef.current = trigger; },
@@ -633,17 +656,21 @@ export default function LandingPage() {
     <>
       <a className="skip-link" href="#main">Bỏ qua điều hướng</a>
       <DialogFocusContext.Provider value={focusContext}>
-        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog.Root open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setInitialTask(""); }}>
           <Header />
           <main id="main">
             <Hero />
             <PainSection state={demoState} dispatch={dispatch} />
             <ResourceSection />
-            <FlowSection state={demoState} dispatch={dispatch} />
+            <FlowSection state={demoState} dispatch={dispatch} onStart={(brief, trigger) => {
+              focusContext.registerTrigger(trigger);
+              setInitialTask(brief);
+              setDialogOpen(true);
+            }} />
             <StartSection />
           </main>
           <Footer />
-          {dialogOpen && <Suspense fallback={<DialogFallback restoreFocus={focusContext.restoreTrigger} />}><StartDialogContent key="open" /></Suspense>}
+          {dialogOpen && <Suspense fallback={<DialogFallback restoreFocus={focusContext.restoreTrigger} />}><StartDialogContent key="open" initialTask={initialTask} /></Suspense>}
         </Dialog.Root>
       </DialogFocusContext.Provider>
     </>

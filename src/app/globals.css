@@ -221,6 +221,14 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .deal-checklist li { padding: 6px 0; border-top: 1px solid #ffffff30; color: #f1dfd8; font-size: 13px; }
 .deal-checklist li::before { padding-right: 7px; content: "✓"; color: #e2b4a9; }
 .deal-disclaimer { margin: auto 0 0; padding-top: 17px; color: #edcfca; font-size: 13px; line-height: 1.55; }
+.deal-brief-fields { display: grid; gap: 14px; margin: 20px 0; }
+.deal-brief-fields label { display: grid; gap: 7px; font-size: 13px; font-weight: 600; }
+.deal-brief-fields input, .deal-brief-fields textarea { width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid #ffffff70; border-radius: 0; background: #fff9f3; color: #34282a; font: inherit; font-weight: 400; }
+.deal-brief-fields textarea { resize: vertical; }
+.deal-brief-fields input::placeholder, .deal-brief-fields textarea::placeholder { color: #74676a; opacity: 1; }
+.deal-brief-fields input:focus-visible, .deal-brief-fields textarea:focus-visible { outline: 2px solid #fff9f3; outline-offset: 3px; }
+.deal-preview .deal-submit { width: 100%; background: #fff9f3; color: #782d3e; border-color: #fff9f3; }
+.deal-preview .deal-submit:disabled { cursor: not-allowed; opacity: .6; }
 .start-section { border-bottom: 1px solid #d8d0c5; }
 .start-panel { min-height: 400px; padding: 58px clamp(30px, 6vw, 83px); display: grid; grid-template-columns: 1fr .6fr; gap: 50px; align-items: center; background: #ece4db; }
 .start-copy .eyebrow { margin-bottom: 19px; }

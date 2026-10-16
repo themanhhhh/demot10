@@ -36,7 +36,7 @@ export const demoScenarios = [
       {
         id: "ads-value",
         title: "Làm rõ đề xuất giá trị và kênh",
-        description: "Một hướng giả định khác để xem xét thông điệp và cách tiếp cận.",
+        description: "Rà soát thông điệp bán hàng, lợi thế sản phẩm và kênh tiếp cận khách hàng.",
         configurations: [
           {
             id: "ads-value-freelancer",
@@ -128,7 +128,7 @@ export const demoScenarios = [
       {
         id: "product-channel",
         title: "Xem xét cách tiếp cận khách hàng",
-        description: "Một hướng giả định khác để làm rõ kênh và điểm tiếp xúc.",
+        description: "Xác định kênh tiếp cận và điểm tiếp xúc cần thử nghiệm với khách hàng.",
         configurations: [
           {
             id: "product-channel-agency",
