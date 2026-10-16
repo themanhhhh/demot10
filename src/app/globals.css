@@ -112,7 +112,7 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .why-section { background: #f0ece4; width: 100%; padding-inline: max(48px, calc((100% - 1280px) / 2)); }
 .section-topline { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .section-topline .eyebrow { margin-bottom: 32px; }
-.section-index, .demo-inline { color: var(--muted); text-transform: uppercase; letter-spacing: .13em; font-size: 8px; }
+.section-index { color: var(--muted); text-transform: uppercase; letter-spacing: .13em; font-size: 8px; }
 .why-heading-row { margin-bottom: 45px; display: grid; grid-template-columns: 1fr .7fr; gap: 70px; align-items: end; }
 .why-heading-row h2 { margin-bottom: 0; }
 .why-heading-row > p { max-width: 445px; margin: 0 0 5px; color: var(--muted); font-size: 13px; line-height: 1.8; }
@@ -137,8 +137,6 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .coordination-tag { padding: 6px 8px; border: 1px solid #c8aeb0; color: var(--burgundy); text-align: center; text-transform: uppercase; letter-spacing: .1em; font-size: 7px; line-height: 1.45; font-weight: 750; }
 
 .flow-section { padding-bottom: 115px; }
-.demo-inline { color: var(--burgundy); }
-.demo-inline span { font-size: 7px; }
 .flow-heading-row { margin: 0 0 35px; display: flex; justify-content: space-between; align-items: end; gap: 40px; }
 .flow-heading-row h2 { margin-bottom: 13px; }
 .flow-intro { max-width: 580px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
@@ -207,7 +205,7 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .start-section { border-bottom: 1px solid #d8d0c5; }
 .start-panel { min-height: 400px; padding: 58px clamp(30px, 6vw, 83px); display: grid; grid-template-columns: 1fr .6fr; gap: 50px; align-items: center; background: #ece4db; }
 .start-copy .eyebrow { margin-bottom: 19px; }
-.start-copy h2 { margin-bottom: 17px; }
+.start-copy h2 { margin-bottom: 17px; line-height: 1.14; }
 .start-copy > p:not(.eyebrow) { max-width: 470px; margin-bottom: 22px; color: #64645e; font-size: 13px; line-height: 1.8; }
 .start-aside { min-height: 260px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #d0c5b8; }
 .start-orbit { position: relative; width: min(100%, 280px); aspect-ratio: 1; display: grid; place-items: center; }
@@ -222,7 +220,7 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .start-orbit__core { position: absolute; inset: 50% auto auto 50%; width: 82px; aspect-ratio: 1; border: 1px solid #a88c86; border-radius: 50%; display: grid; place-items: center; background: #ece4db; color: var(--burgundy); font: italic 35px/.9 var(--serif); transform: translate(-50%, -50%); }
 .start-orbit__core::before, .start-orbit__core::after { position: absolute; inset: 7px; border: 1px solid #c8b4aa; border-radius: 50%; content: ""; }
 .start-orbit__core::after { inset: -6px; border-color: #a88c8645; }
-.start-orbit__core-mark { display: inline-block; }
+.start-orbit__planet { width: 57px; height: 57px; overflow: visible; }
 .start-orbit__glint { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #a88c86; opacity: .7; }
 .start-orbit__glint--one { top: 21%; left: 22%; }
 .start-orbit__glint--two { right: 17%; bottom: 25%; width: 3px; height: 3px; }
@@ -426,7 +424,6 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
   .coordination-note .coordination-tag { grid-column: 2; justify-self: start; }
   .coordination-note p { font-size: 10px; }
   .flow-section { padding-bottom: 66px; }
-  .demo-inline { max-width: 110px; text-align: right; font-size: 6px; }
   .flow-heading-row { margin-bottom: 24px; align-items: flex-start; gap: 12px; }
   .flow-heading-row h2 { font-size: clamp(37px, 9.7vw, 48px); }
   .flow-intro { font-size: 11px; }
@@ -468,7 +465,8 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
   .start-copy > p:not(.eyebrow) { font-size: 11px; }
   .start-aside { min-height: 0; padding-top: 17px; border-top: 1px solid #d0c5b8; border-left: 0; }
   .start-orbit { width: min(100%, 196px); }
-  .start-orbit__core { width: 62px; font-size: 28px; }
+  .start-orbit__core { width: 62px; }
+  .start-orbit__planet { width: 44px; height: 44px; }
   .start-orbit__satellite { width: 7px; height: 7px; left: calc(50% - 3.5px); }
   .site-footer { padding: 34px 19px 14px; }
   .footer-main { grid-template-columns: 1fr; gap: 24px; padding-bottom: 24px; }

@@ -365,7 +365,7 @@ function FlowSection({
 
   return (
     <section ref={flowHeadingRef} className="flow-section section-wrap section-pad" id="flow" aria-labelledby="flow-title">
-       <div className="section-topline"><Eyebrow>02 <span className="eyebrow-line" /> Từ việc đến Deal</Eyebrow><span className="demo-inline"><span aria-hidden="true">●</span> VÍ DỤ GIẢ ĐỊNH · CHƯA PHẢI ĐỀ XUẤT THỰC</span></div>
+       <div className="section-topline"><Eyebrow>02 <span className="eyebrow-line" /> Từ việc đến Deal</Eyebrow></div>
       <div className="flow-heading-row">
         <div><h2 id="flow-title">Một việc. Những hướng<br /><em>giải khác nhau.</em></h2><p className="flow-intro">Chọn một tình huống, xem các hướng giải và cấu hình team giả định. Không có Partner, báo giá hay kết quả thực được đại diện ở đây.</p></div>
         <div className="flow-aside"><span className="aside-num">4</span><span>bước để làm rõ<br />một Deal</span></div>
@@ -470,7 +470,7 @@ function StartSection() {
 
     const track = orbit.querySelector<HTMLElement>(".start-orbit__track");
     const rings = orbit.querySelectorAll<SVGCircleElement>(".start-orbit__ring");
-    const core = orbit.querySelector<HTMLElement>(".start-orbit__core-mark");
+    const core = orbit.querySelector<SVGSVGElement>(".start-orbit__planet");
     if (!track || !rings.length || !core) return;
 
     const media = gsap.matchMedia();
@@ -545,7 +545,15 @@ function StartSection() {
               </svg>
               <span className="start-orbit__satellite" />
             </div>
-            <div className="start-orbit__core"><span className="start-orbit__core-mark">E</span></div>
+            <div className="start-orbit__core">
+              <svg className="start-orbit__planet" viewBox="0 0 64 64" focusable="false">
+                <ellipse cx="32" cy="32" rx="27" ry="10" transform="rotate(-28 32 32)" fill="none" stroke="#a88c86" strokeWidth="1.2" />
+                <circle cx="32" cy="32" r="14" fill="#d9c5b9" stroke="#782d3e" strokeWidth="1.2" />
+                <path d="M21 29c3-5 9-8 15-7-4 2-5 5-4 8 1 2 0 4-2 5-3 2-7 1-10-1 1-1 1-3 1-5Z" fill="#b7978e" opacity=".68" />
+                <circle cx="39" cy="38" r="2" fill="#a98178" opacity=".75" />
+                <circle cx="25" cy="38" r="1.4" fill="#f3e9df" />
+              </svg>
+            </div>
             <span className="start-orbit__glint start-orbit__glint--one" />
             <span className="start-orbit__glint start-orbit__glint--two" />
           </div>
