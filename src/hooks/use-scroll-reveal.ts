@@ -22,23 +22,25 @@ export function useScrollReveal<T extends HTMLElement>(targets?: string) {
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
       const isMobile = window.matchMedia("(max-width: 620px)").matches;
-      gsap.fromTo(
-        revealTargets,
-        { autoAlpha: 0, y: isMobile ? 12 : 20 },
-        {
-          y: 0,
-          autoAlpha: 1,
-          duration: isMobile ? 0.42 : 0.58,
-          stagger: revealTargets.length > 1 ? (isMobile ? 0.045 : 0.075) : 0,
-          ease: "power2.out",
-          clearProps: "opacity,visibility,transform",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 85%",
-            once: true,
+      revealTargets.forEach((target, index) => {
+        gsap.fromTo(
+          target,
+          { autoAlpha: 0, y: isMobile ? 11 : 16 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: isMobile ? 0.52 : 0.72,
+            delay: Math.min(index * (isMobile ? 0.045 : 0.06), 0.18),
+            ease: "power2.out",
+            clearProps: "opacity,visibility,transform",
+            scrollTrigger: {
+              trigger: target,
+              start: "top 88%",
+              once: true,
+            },
           },
-        },
-      );
+        );
+      });
     });
 
     return () => media.revert();
