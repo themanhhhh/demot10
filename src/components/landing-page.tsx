@@ -564,7 +564,7 @@ function StartSection() {
 }
 
 function Footer() {
-  const footerRef = useScrollReveal<HTMLElement>(".footer-wordmark, .footer-message, .footer-description, .footer-kicker, .footer-nav a, .footer-social-list, .footer-social-pending, .footer-contact-pending, .footer-action > p, .footer-cta");
+  const footerRef = useScrollReveal<HTMLElement>(".footer-wordmark, .footer-message, .footer-description, .footer-kicker, .footer-nav a, .footer-social-list, .footer-action > p, .footer-cta");
 
   return (
     <footer className="site-footer" ref={footerRef}>
@@ -587,8 +587,6 @@ function Footer() {
             <li><span><SiInstagram aria-hidden="true" focusable="false" />Instagram</span></li>
             <li><span><SiTiktok aria-hidden="true" focusable="false" />TikTok</span></li>
           </ul>
-          <p className="footer-social-pending">Chờ URL tài khoản chính thức để tạo liên kết.</p>
-          <p className="footer-contact-pending">Thông tin liên hệ công khai chưa được bàn giao.</p>
         </div>
         <div className="footer-action">
           <span className="footer-kicker">BƯỚC TIẾP THEO</span>
