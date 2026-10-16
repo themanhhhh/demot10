@@ -15,9 +15,9 @@ import { submitLead } from "@/features/forms/submit";
 type ErrorLike = HookFormFieldError | undefined;
 
 const authorityOptions = [
-  ["final", "Tôi là người quyết định cuối cùng"],
-  ["shared", "Tôi cùng tham gia quyết định"],
-  ["support", "Tôi đang tìm hiểu / hỗ trợ người quyết định"],
+  ["final", "Tôi là người quyết định chính"],
+  ["shared", "Tôi cùng người khác quyết định"],
+  ["support", "Tôi đang tìm hiểu hoặc hỗ trợ người quyết định"],
 ];
 
 function Eyebrow({ children }: { children: ReactNode }) {
@@ -71,7 +71,7 @@ function DecisionField({
       <RadioGroup
         value={value}
         onValueChange={onChange}
-        aria-label="Quyền quyết định"
+        aria-label="Vai trò trong quyết định"
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${idPrefix}-error` : undefined}
       >
@@ -92,7 +92,19 @@ function DecisionField({
   );
 }
 
-const contactConsentNotice = "Khi gửi, thông tin sẽ được chuyển đến Ecom’s Diary để xem xét yêu cầu và liên hệ với bạn. Vui lòng không nhập thông tin nhạy cảm.";
+const contactConsentNotice = "Thông tin được chuyển đến Ecom’s Diary để xem xét yêu cầu và liên hệ lại. Vui lòng không gửi dữ liệu nhạy cảm hoặc bí mật doanh nghiệp.";
+const participantOptions = [
+  "Tôi / chủ doanh nghiệp",
+  "Đội ngũ nội bộ",
+  "Agency / đơn vị đang hợp tác",
+  "Freelancer / chuyên gia",
+];
+const difficultyOptions = [
+  "Chưa xác định được hướng ưu tiên",
+  "Thiếu năng lực chuyên môn phù hợp",
+  "Nguồn lực chưa phối hợp nhịp nhàng",
+  "Chưa thống nhất phạm vi công việc",
+];
 
 function ConsentField({
   label,
@@ -165,33 +177,33 @@ function FormA({ active }: { active: boolean }) {
     <form className="lead-form" hidden={!active} noValidate onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="form-group">
         <legend><span>01</span> Việc bạn muốn bắt đầu <i>* Bắt buộc</i></legend>
-        <label className="field-label" htmlFor="a-task">Bạn muốn giải quyết việc gì trong doanh nghiệp?</label>
-        <textarea id="a-task" {...taskField} ref={(element) => { taskField.ref(element ?? undefined); firstTaskRef.current = element; }} rows={3} placeholder="Mô tả ngắn việc bạn muốn giải quyết..." aria-invalid={Boolean(errors.task)} />
+        <label className="field-label" htmlFor="a-task">Bạn muốn giải quyết hoặc cải thiện điều gì?</label>
+        <textarea id="a-task" {...taskField} ref={(element) => { taskField.ref(element ?? undefined); firstTaskRef.current = element; }} rows={3} placeholder="Nêu vấn đề, mục tiêu hoặc kết quả bạn đang hướng tới..." aria-invalid={Boolean(errors.task)} />
         <FieldError error={errors.task} id="a-task-error" />
       </fieldset>
       <fieldset className="form-group">
-        <legend><span>02</span> Doanh nghiệp, sản phẩm và kênh <i>* Bắt buộc</i></legend>
-        <label className="field-label" htmlFor="a-company">Tên doanh nghiệp / thương hiệu</label><input id="a-company" autoComplete="organization" placeholder="Tên doanh nghiệp hoặc thương hiệu" aria-invalid={Boolean(errors.company)} {...register("company")} /><FieldError error={errors.company} id="a-company-error" />
-        <label className="field-label" htmlFor="a-product">Sản phẩm hoặc dịch vụ</label><input id="a-product" autoComplete="off" placeholder="Sản phẩm hoặc dịch vụ" aria-invalid={Boolean(errors.product)} {...register("product")} /><FieldError error={errors.product} id="a-product-error" />
-        <label className="field-label" htmlFor="a-channel">Sản phẩm đang được bán qua kênh nào?</label><input id="a-channel" autoComplete="off" placeholder="Website, mạng xã hội, cửa hàng…" aria-invalid={Boolean(errors.channel)} {...register("channel")} /><FieldError error={errors.channel} id="a-channel-error" />
+        <legend><span>02</span> Thông tin doanh nghiệp <i>* Bắt buộc</i></legend>
+        <label className="field-label" htmlFor="a-company">Tên doanh nghiệp hoặc thương hiệu</label><input id="a-company" autoComplete="organization" placeholder="Tên doanh nghiệp hoặc thương hiệu" aria-invalid={Boolean(errors.company)} {...register("company")} /><FieldError error={errors.company} id="a-company-error" />
+        <label className="field-label" htmlFor="a-product">Sản phẩm hoặc dịch vụ chính</label><input id="a-product" autoComplete="off" placeholder="Bạn đang cung cấp sản phẩm hoặc dịch vụ gì?" aria-invalid={Boolean(errors.product)} {...register("product")} /><FieldError error={errors.product} id="a-product-error" />
+        <label className="field-label" htmlFor="a-channel">Hiện bạn đang tiếp cận khách hàng qua kênh nào?</label><input id="a-channel" autoComplete="off" placeholder="Ví dụ: website, mạng xã hội, sàn, cửa hàng…" aria-invalid={Boolean(errors.channel)} {...register("channel")} /><FieldError error={errors.channel} id="a-channel-error" />
       </fieldset>
       <fieldset className="form-group">
-        <legend id="a-authority-legend"><span>03</span> Quyền quyết định <i>* Bắt buộc</i></legend>
-        <p className="field-hint">Vai trò của bạn trong quyết định về việc này là gì?</p>
+        <legend id="a-authority-legend"><span>03</span> Vai trò của bạn <i>* Bắt buộc</i></legend>
+        <p className="field-hint">Bạn tham gia quyết định về công việc này như thế nào?</p>
         <Controller name="authority" control={control} render={({ field }) => (
           <DecisionField value={field.value} onChange={field.onChange} error={errors.authority} idPrefix="a-authority" focusRef={(element) => field.ref(element ?? undefined)} />
         )} />
       </fieldset>
       <fieldset className="form-group">
-        <legend><span>04</span> Cách liên hệ <i>* Bắt buộc</i></legend>
+        <legend><span>04</span> Thông tin liên hệ <i>* Bắt buộc</i></legend>
         <label className="field-label" htmlFor="a-name">Họ và tên</label><input id="a-name" autoComplete="name" placeholder="Họ và tên" aria-invalid={Boolean(errors.name)} {...register("name")} /><FieldError error={errors.name} id="a-name-error" />
-        <label className="field-label" htmlFor="a-phone">Điện thoại / Zalo</label><input id="a-phone" type="tel" autoComplete="tel" placeholder="Số điện thoại hoặc Zalo" aria-invalid={Boolean(errors.phone)} {...register("phone")} /><FieldError error={errors.phone} id="a-phone-error" />
+        <label className="field-label" htmlFor="a-phone">Số điện thoại có thể liên hệ</label><input id="a-phone" type="tel" autoComplete="tel" placeholder="Số điện thoại hoặc Zalo" aria-invalid={Boolean(errors.phone)} {...register("phone")} /><FieldError error={errors.phone} id="a-phone-error" />
       </fieldset>
       <fieldset className="form-group consent-group">
         <legend><span>05</span> Đồng ý liên hệ <i>* Bắt buộc</i></legend>
         <p className="field-hint">{contactConsentNotice}</p>
         <Controller name="consent" control={control} render={({ field }) => (
-          <ConsentField label="Tôi đồng ý để Ecom’s Diary liên hệ về yêu cầu này." checked={field.value} onChange={field.onChange} error={errors.consent} id="a-consent" />
+          <ConsentField label="Tôi đồng ý để Ecom’s Diary liên hệ về nội dung tôi gửi." checked={field.value} onChange={field.onChange} error={errors.consent} id="a-consent" />
         )} />
       </fieldset>
       <div className="form-actions"><Button type="submit" disabled={isSubmitting || submitted}>{isSubmitting ? "Đang gửi…" : <>Gửi yêu cầu <ArrowUpRight aria-hidden="true" size={13} /></>}</Button><span>Vui lòng điền đầy đủ các mục bắt buộc.</span></div>
@@ -264,14 +276,14 @@ function FormB({ active }: { active: boolean }) {
       <div className="form-step" hidden={step !== 1}>
         <fieldset className="form-group">
           <legend><span>01</span> Việc bạn muốn bắt đầu <i>* Bắt buộc</i></legend>
-          <label className="field-label" htmlFor="b-task">Bạn muốn giải quyết việc gì?</label><textarea id="b-task" {...taskField} ref={(element) => { taskField.ref(element ?? undefined); firstTaskRef.current = element; }} rows={3} placeholder="Mô tả việc bạn muốn giải quyết. Vui lòng không nhập thông tin nhạy cảm." aria-invalid={Boolean(errors.task)} /><FieldError error={errors.task} id="b-task-error" />
+          <label className="field-label" htmlFor="b-task">Hiện trạng và mục tiêu bạn muốn đạt được</label><textarea id="b-task" {...taskField} ref={(element) => { taskField.ref(element ?? undefined); firstTaskRef.current = element; }} rows={3} placeholder="Chia sẻ điều đang diễn ra, điều chưa như mong đợi và kết quả bạn muốn hướng tới. Không gửi dữ liệu nhạy cảm." aria-invalid={Boolean(errors.task)} /><FieldError error={errors.task} id="b-task-error" />
         </fieldset>
         <fieldset className="form-group participant-group">
-          <legend><span>02</span> Ai đang tham gia? <i>* Chọn ít nhất một</i></legend>
-          <p className="field-hint">Có thể chọn nhiều đáp án.</p>
+          <legend><span>02</span> Những ai đang tham gia? <i>* Chọn ít nhất một</i></legend>
+          <p className="field-hint">Chọn những người hoặc nhóm đang tham gia công việc này.</p>
           <Controller name="participants" control={control} render={({ field }) => (
             <div>
-              {["Client / chủ doanh nghiệp", "Team nội bộ", "Agency", "Freelancer / chuyên gia"].map((value, index) => (
+              {participantOptions.map((value, index) => (
                 <CheckboxChoice key={value} id={`participant-${index}`} label={value} checked={field.value.includes(value)} onCheckedChange={(checked) => toggleChoice("participants", field.value, value, checked === true)} errorId={errors.participants ? "participants-error" : undefined} />
               ))}
             </div>
@@ -279,12 +291,13 @@ function FormB({ active }: { active: boolean }) {
           <FieldError error={errors.participants} id="participants-error" />
         </fieldset>
         <fieldset className="form-group">
-          <legend><span>03</span> Doanh nghiệp / thương hiệu <i>* Bắt buộc</i></legend>
-          <label className="field-label" htmlFor="b-company">Tên doanh nghiệp / thương hiệu</label><input id="b-company" autoComplete="organization" placeholder="Tên doanh nghiệp hoặc thương hiệu" aria-invalid={Boolean(errors.company)} {...register("company")} /><FieldError error={errors.company} id="b-company-error" />
+          <legend><span>03</span> Doanh nghiệp <i>* Bắt buộc</i></legend>
+          <label className="field-label" htmlFor="b-company">Tên doanh nghiệp hoặc thương hiệu</label><input id="b-company" autoComplete="organization" placeholder="Tên doanh nghiệp hoặc thương hiệu" aria-invalid={Boolean(errors.company)} {...register("company")} /><FieldError error={errors.company} id="b-company-error" />
         </fieldset>
         <fieldset className="form-group">
           <legend><span>04</span> Kênh kinh doanh <i>* Bắt buộc</i></legend>
-          <label className="field-label" htmlFor="b-channel">Kênh đang hoạt động</label>
+          <label className="field-label" htmlFor="b-channel">Kênh kinh doanh chính hiện nay</label>
+          <p className="field-hint">Nếu bán qua nhiều kênh, chọn “Nhiều kênh”.</p>
           <Controller name="channel" control={control} render={({ field }) => (
             <select
               id="b-channel"
@@ -315,8 +328,8 @@ function FormB({ active }: { active: boolean }) {
 
       <div className="form-step" hidden={step !== 2}>
         <fieldset className="form-group">
-          <legend><span>05</span> Quyền quyết định <i>* Bắt buộc</i></legend>
-          <p className="field-hint">Vai trò của bạn trong quyết định về việc này là gì?</p>
+          <legend><span>05</span> Vai trò của bạn <i>* Bắt buộc</i></legend>
+          <p className="field-hint">Bạn tham gia quyết định về công việc này như thế nào?</p>
           <Controller name="authority" control={control} render={({ field }) => (
             <DecisionField
               value={field.value}
@@ -331,11 +344,11 @@ function FormB({ active }: { active: boolean }) {
           )} />
         </fieldset>
         <fieldset className="form-group">
-          <legend><span>06</span> Phần đang khó xử lý <i>Tùy chọn · tối đa 2</i></legend>
-          <p className="field-hint">Chọn tối đa hai nội dung, nếu phù hợp.</p>
+          <legend><span>06</span> Khó khăn hiện tại <i>Tùy chọn · tối đa 2</i></legend>
+          <p className="field-hint">Chọn tối đa hai nội dung phù hợp nhất.</p>
           <Controller name="difficulties" control={control} render={({ field }) => (
             <div className="difficulty-grid">
-              {["Chưa rõ hướng ưu tiên", "Thiếu năng lực chuyên môn", "Nguồn lực đang phân tán", "Khó thống nhất phạm vi"].map((value, index) => {
+              {difficultyOptions.map((value, index) => {
                 const checked = field.value.includes(value);
                 return <CheckboxChoice key={value} id={`difficulty-${index}`} label={value} checked={checked} disabled={field.value.length >= 2 && !checked} onCheckedChange={(nextChecked) => toggleChoice("difficulties", field.value, value, nextChecked === true)} />;
               })}
@@ -345,19 +358,19 @@ function FormB({ active }: { active: boolean }) {
           <FieldError error={errors.difficulties} id="difficulties-error" />
         </fieldset>
         <fieldset className="form-group">
-          <legend><span>07</span> Đã thử cách nào chưa? <i>Tùy chọn</i></legend>
+          <legend><span>07</span> Những cách đã thử <i>Tùy chọn</i></legend>
           <Controller name="tried" control={control} render={({ field }) => (
-            <CheckboxChoice id="b-tried-toggle" label="Đã thử một cách xử lý" checked={field.value} onCheckedChange={(checked) => field.onChange(checked === true)} />
+            <CheckboxChoice id="b-tried-toggle" label="Tôi đã thử một hoặc vài cách xử lý" checked={field.value} onCheckedChange={(checked) => field.onChange(checked === true)} />
           )} />
-          {tried && <div className="conditional-field"><label className="field-label" htmlFor="b-tried">Bạn đã thử cách nào?</label><textarea id="b-tried" rows={2} placeholder="Không bắt buộc" {...register("triedDetails")} /></div>}
+          {tried && <div className="conditional-field"><label className="field-label" htmlFor="b-tried">Bạn đã thử cách nào và kết quả ra sao?</label><textarea id="b-tried" rows={2} placeholder="Chia sẻ ngắn gọn, nếu bạn muốn" {...register("triedDetails")} /></div>}
         </fieldset>
         <fieldset className="form-group">
-          <legend><span>08</span> Cách liên hệ <i>* Bắt buộc</i></legend>
+          <legend><span>08</span> Thông tin liên hệ <i>* Bắt buộc</i></legend>
           <label className="field-label" htmlFor="b-name">Họ và tên</label><input id="b-name" autoComplete="name" placeholder="Họ và tên" aria-invalid={Boolean(errors.name)} {...register("name")} /><FieldError error={errors.name} id="b-name-error" />
-          <label className="field-label" htmlFor="b-phone">Điện thoại / Zalo</label><input id="b-phone" type="tel" autoComplete="tel" placeholder="Số điện thoại hoặc Zalo" aria-invalid={Boolean(errors.phone)} {...register("phone")} /><FieldError error={errors.phone} id="b-phone-error" />
+          <label className="field-label" htmlFor="b-phone">Số điện thoại có thể liên hệ</label><input id="b-phone" type="tel" autoComplete="tel" placeholder="Số điện thoại hoặc Zalo" aria-invalid={Boolean(errors.phone)} {...register("phone")} /><FieldError error={errors.phone} id="b-phone-error" />
           <p className="field-hint">{contactConsentNotice}</p>
           <Controller name="consent" control={control} render={({ field }) => (
-            <ConsentField label="Tôi đồng ý để Ecom’s Diary liên hệ về yêu cầu này." checked={field.value} onChange={field.onChange} error={errors.consent} id="b-consent" />
+            <ConsentField label="Tôi đồng ý để Ecom’s Diary liên hệ về nội dung tôi gửi." checked={field.value} onChange={field.onChange} error={errors.consent} id="b-consent" />
           )} />
         </fieldset>
         <div className="form-actions"><Button type="submit" disabled={isSubmitting || submitted}>{isSubmitting ? "Đang gửi…" : <>Gửi yêu cầu <ArrowUpRight aria-hidden="true" size={13} /></>}</Button><span>Bước 2 / 2</span></div>
@@ -379,20 +392,20 @@ function RoutePicker({
     <div ref={routePickerRef}>
       <Eyebrow><span className="eyebrow-line" /> MỞ VIỆC · CHỌN CÁCH BẮT ĐẦU</Eyebrow>
       <Dialog.Title asChild><h2 className="dialog-title">Bạn muốn bắt đầu<br /><em>thế nào?</em></h2></Dialog.Title>
-      <Dialog.Description asChild><p className="dialog-intro">Chưa cần biết chính xác nguyên nhân hoặc thứ tự. Chọn cách chia sẻ phù hợp để Ecom’s Diary xem xét yêu cầu của bạn.</p></Dialog.Description>
+      <Dialog.Description asChild><p className="dialog-intro">Chọn cách chia sẻ phù hợp với lượng thông tin bạn đã sẵn sàng cung cấp.</p></Dialog.Description>
       <div className="route-grid">
         <article className="route-card">
           <div className="route-card-top"><span>FORM A</span><span className="route-duration">TRAO ĐỔI TRƯỚC</span></div>
-          <h3>Trao đổi trước</h3><p>Giới thiệu ngắn về doanh nghiệp và việc muốn giải quyết. Một trang, bắt đầu gọn.</p>
-          <Button className="route-button" type="button" data-default-route onClick={() => onSelect("a")}>Chọn trao đổi trước <ArrowUpRight aria-hidden="true" size={12} /></Button>
+          <h3>Trao đổi trước</h3><p>Chia sẻ ngắn về nhu cầu và cách liên hệ. Phù hợp khi bạn muốn bắt đầu bằng một cuộc trao đổi.</p>
+          <Button className="route-button" type="button" data-default-route onClick={() => onSelect("a")}>Điền thông tin ngắn <ArrowUpRight aria-hidden="true" size={12} /></Button>
         </article>
         <article className="route-card route-card-deep">
           <div className="route-card-top"><span>FORM B</span><span className="route-duration">GỬI BỐI CẢNH</span></div>
-          <h3>Gửi bối cảnh trước</h3><p>Chia sẻ kỹ hơn về việc, những người đang tham gia và phần khó xử lý. Hai bước ngắn.</p>
-          <Button className="route-button" variant="outline" type="button" onClick={() => onSelect("b")}>Chọn gửi bối cảnh <ArrowUpRight aria-hidden="true" size={12} /></Button>
+          <h3>Gửi bối cảnh trước</h3><p>Chia sẻ hiện trạng, những người đang tham gia và khó khăn bạn gặp. Biểu mẫu gồm hai bước.</p>
+          <Button className="route-button" variant="outline" type="button" onClick={() => onSelect("b")}>Chia sẻ bối cảnh <ArrowUpRight aria-hidden="true" size={12} /></Button>
         </article>
       </div>
-      <p className="dialog-footnote"><span aria-hidden="true">ⓘ</span> Chọn cách chia sẻ phù hợp. Thông tin được gửi đến Ecom’s Diary để xem xét yêu cầu và liên hệ lại.</p>
+      <p className="dialog-footnote"><span aria-hidden="true">ⓘ</span> Thông tin được chuyển đến Ecom’s Diary để xem xét yêu cầu và liên hệ lại. Vui lòng không gửi dữ liệu nhạy cảm.</p>
     </div>
   );
 }
@@ -437,7 +450,7 @@ export function StartDialogContent() {
                   </div>
                   <span className="preview-stamp form-stamp">GỬI YÊU CẦU<br />TRỰC TIẾP</span>
                 </div>
-                <Dialog.Description asChild><p className="form-warning">Thông tin bạn gửi sẽ được chuyển đến Ecom’s Diary để xem xét khả năng tiếp nhận và liên hệ với bạn.</p></Dialog.Description>
+                <Dialog.Description asChild><p className="form-warning">{route === "a" ? "Chia sẻ những thông tin cần thiết để Ecom’s Diary xem xét yêu cầu và liên hệ trao đổi thêm." : "Các thông tin dưới đây giúp Ecom’s Diary hiểu bối cảnh trước khi liên hệ với bạn."}</p></Dialog.Description>
               </div>
             )}
             <FormA active={route === "a"} />
