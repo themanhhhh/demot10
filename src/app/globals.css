@@ -46,18 +46,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .preloader-wordmark { display: inline-flex; align-items: center; gap: 11px; font-size: 12px; font-weight: 700; }
 .preloader-mark { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid var(--burgundy); color: var(--burgundy); font: 20px/1 var(--serif); }
 .preloader-index, .preloader-footer { color: var(--muted); text-transform: uppercase; letter-spacing: .13em; font-size: 9px; font-weight: 700; }
-.preloader-content { padding-block: clamp(34px, 6vh, 70px); display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(36px, 8vw, 120px); }
-.preloader-copy { padding-block: 24px; }
+.preloader-content { flex: 1; padding-block: clamp(34px, 6vh, 70px); display: grid; grid-template-columns: 1fr; place-items: center; text-align: center; }
+.preloader-copy { width: min(100%, 760px); padding-block: 24px; display: grid; justify-items: center; }
 .preloader-eyebrow { margin: 0 0 18px; display: flex; align-items: center; gap: 10px; color: var(--burgundy); text-transform: uppercase; letter-spacing: .15em; font-size: 9px; font-weight: 750; }
 .preloader-eyebrow > span { width: 24px; height: 1px; background: currentColor; }
 .preloader-counter { margin: 0 0 12px; display: flex; align-items: baseline; color: var(--burgundy); font: 400 clamp(92px, 15vw, 190px)/.82 var(--serif); letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
 .preloader-counter em { margin-left: 8px; font-size: .27em; font-style: normal; letter-spacing: 0; }
 .preloader-caption { margin: 0; font: 400 clamp(23px, 3vw, 38px)/1.12 var(--serif); }
 .preloader-caption i { color: var(--burgundy); font-weight: 400; }
-.preloader-art { position: relative; min-height: 280px; aspect-ratio: 1.36; margin: 0; overflow: hidden; border: 1px solid #dfd7cb; background: #e9e3d9; }
-.preloader-image { object-fit: cover; object-position: 42% center; }
-.preloader-art::after { position: absolute; inset: 0; content: ""; background: linear-gradient(180deg, transparent 55%, #20181355); pointer-events: none; }
-.preloader-art figcaption { position: absolute; z-index: 1; right: 16px; bottom: 14px; left: 16px; display: flex; justify-content: space-between; color: white; text-transform: uppercase; letter-spacing: .13em; font-size: 8px; font-weight: 700; }
 .preloader-footer { min-height: 64px; border-top: 1px solid var(--line); }
 .preloader-progress { height: 1px; flex: 1; overflow: hidden; background: #d9d1c5; }
 .preloader-progress i { width: 100%; height: 100%; display: block; transform: scaleX(0); transform-origin: left center; background: var(--burgundy); }
@@ -368,8 +364,6 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
   .section-wrap { width: min(100% - 56px, 760px); }
   .site-header { width: calc(100% - 44px); }
   .preloader-inner { width: min(100% - 56px, 760px); }
-  .preloader-content { gap: 30px; }
-  .preloader-art { min-height: 240px; }
   .hero { min-height: auto; padding-block: 65px 68px; grid-template-columns: 1fr .9fr; column-gap: 28px; }
   .hero h1 { font-size: clamp(43px, 6vw, 59px); }
   .chess-scene { height: clamp(300px, 43vw, 385px); }
@@ -395,13 +389,10 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
   .preloader-inner { width: calc(100% - 38px); }
   .preloader-header { min-height: 65px; }
   .preloader-index { display: none; }
-  .preloader-content { padding-block: 27px; grid-template-columns: 1fr; gap: 17px; }
-  .preloader-copy { padding: 0; display: grid; grid-template-columns: 1fr auto; align-items: end; }
-  .preloader-eyebrow { grid-column: 1 / -1; margin-bottom: 15px; font-size: 8px; }
-  .preloader-counter { margin: 0; font-size: clamp(82px, 24vw, 126px); }
-  .preloader-caption { justify-self: end; padding-bottom: 4px; text-align: right; font-size: clamp(19px, 5vw, 25px); }
-  .preloader-art { min-height: 0; max-height: min(36svh, 290px); aspect-ratio: 1.5; }
-  .preloader-art figcaption { right: 10px; bottom: 9px; left: 10px; font-size: 6px; }
+  .preloader-content { padding-block: 27px; }
+  .preloader-eyebrow { margin-bottom: 15px; font-size: 8px; }
+  .preloader-counter { margin-bottom: 12px; font-size: clamp(82px, 24vw, 126px); }
+  .preloader-caption { font-size: clamp(22px, 6vw, 29px); }
   .preloader-footer { min-height: 53px; gap: 10px; font-size: 7px; }
   .site-header { width: calc(100% - 34px); height: 65px; grid-template-columns: 1fr auto; }
   .wordmark { gap: 8px; font-size: 10px; }

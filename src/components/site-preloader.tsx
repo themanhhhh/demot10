@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 
 export default function SitePreloader() {
@@ -40,19 +39,12 @@ export default function SitePreloader() {
         onUpdate: () => setProgress(Math.floor(counter.value)),
       });
 
-      const heroImage = document.querySelector<HTMLImageElement>(".chess-reference-image");
-      const imageReady = !heroImage || heroImage.complete
-        ? Promise.resolve()
-        : new Promise<void>((resolve) => {
-            heroImage.addEventListener("load", () => resolve(), { once: true });
-            heroImage.addEventListener("error", () => resolve(), { once: true });
-          });
       const fontsReady = document.fonts?.ready.then(() => undefined) ?? Promise.resolve();
       const safetyTimeout = new Promise<void>((resolve) => {
         timers.push(setTimeout(resolve, 3000));
       });
 
-      void Promise.race([Promise.all([imageReady, fontsReady]), safetyTimeout]).then(() => {
+      void Promise.race([fontsReady, safetyTimeout]).then(() => {
         if (cancelled) return;
 
         const remainingMinimumTime = Math.max(0, 560 - (performance.now() - startedAt));
@@ -105,18 +97,6 @@ export default function SitePreloader() {
             <p className="preloader-counter"><span>{String(progress).padStart(2, "0")}</span><em>%</em></p>
             <p className="preloader-caption">Một việc kinh doanh.<br /><i>Nhiều cách ghép team.</i></p>
           </div>
-
-          <figure className="preloader-art">
-            <Image
-              src="/assets/chess/hero-chess-original.png"
-              alt=""
-              fill
-              sizes="(max-width: 620px) calc(100vw - 56px), (max-width: 900px) calc(100vw - 84px), 50vw"
-              preload
-              className="preloader-image"
-            />
-            <figcaption><span>01 / 04</span><span>GÓC NHÌN CHIẾN LƯỢC</span></figcaption>
-          </figure>
         </div>
 
         <div className="preloader-footer">
