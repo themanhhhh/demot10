@@ -10,7 +10,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  CircleHelp,
   MoveRight,
   Sparkles,
   X,
@@ -441,10 +440,8 @@ function StartSection() {
         </div>
         <div className="start-aside">
           <div className="start-seal" aria-hidden="true"><span>MỞ</span><span>VIỆC</span><ArrowUpRight className="seal-arrow" size={13} /></div>
-          <div className="start-note"><span className="note-rule" /><p>Gửi form không đồng nghĩa đã được chấp nhận, có lịch hẹn hay phải thanh toán.</p></div>
         </div>
       </div>
-      <div className="start-safety"><CircleHelp aria-hidden="true" size={13} /><p>Gửi form chưa đồng nghĩa với việc được tiếp nhận, có lịch hẹn hoặc phát sinh nghĩa vụ thanh toán.</p></div>
     </section>
   );
 }
