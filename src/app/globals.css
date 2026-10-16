@@ -209,9 +209,28 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 .start-copy .eyebrow { margin-bottom: 19px; }
 .start-copy h2 { margin-bottom: 17px; }
 .start-copy > p:not(.eyebrow) { max-width: 470px; margin-bottom: 22px; color: #64645e; font-size: 13px; line-height: 1.8; }
-.start-aside { min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 1px solid #d0c5b8; }
-.start-seal { width: 117px; height: 117px; margin-bottom: 0; border: 1px solid #a88c86; border-radius: 50%; display: flex; align-items: center; justify-content: center; gap: 5px; color: var(--burgundy); font: 22px var(--serif); transform: rotate(-8deg); }
-.seal-arrow { align-self: flex-end; padding-bottom: 20px; font: 14px var(--sans); }
+.start-aside { min-height: 260px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #d0c5b8; }
+.start-orbit { position: relative; width: min(100%, 280px); aspect-ratio: 1; display: grid; place-items: center; }
+.start-orbit__track { position: absolute; inset: 0; will-change: transform; }
+.start-orbit__svg { width: 100%; height: 100%; overflow: visible; }
+.start-orbit__ring { fill: none; stroke: #a88c86; stroke-width: 1; stroke-dasharray: 1 1; vector-effect: non-scaling-stroke; }
+.start-orbit__ring--outer { stroke: #a88c86; stroke-width: 1.1; }
+.start-orbit__ring--middle { stroke: #c5aaa3; stroke-width: .8; }
+.start-orbit__ring--inner { stroke: #d0c5b8; stroke-width: .8; }
+.start-orbit__node { fill: var(--burgundy); opacity: .76; }
+.start-orbit__satellite { position: absolute; top: 5.3%; left: calc(50% - 4px); width: 8px; height: 8px; border: 1px solid #ece4db; border-radius: 50%; background: var(--burgundy); box-shadow: 0 0 0 4px #782d3e1c; }
+.start-orbit__core { position: absolute; inset: 50% auto auto 50%; width: 82px; aspect-ratio: 1; border: 1px solid #a88c86; border-radius: 50%; display: grid; place-items: center; background: #ece4db; color: var(--burgundy); font: italic 35px/.9 var(--serif); transform: translate(-50%, -50%); }
+.start-orbit__core::before, .start-orbit__core::after { position: absolute; inset: 7px; border: 1px solid #c8b4aa; border-radius: 50%; content: ""; }
+.start-orbit__core::after { inset: -6px; border-color: #a88c8645; }
+.start-orbit__core-mark { display: inline-block; }
+.start-orbit__glint { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #a88c86; opacity: .7; }
+.start-orbit__glint--one { top: 21%; left: 22%; }
+.start-orbit__glint--two { right: 17%; bottom: 25%; width: 3px; height: 3px; }
+.start-orbit.is-active .start-orbit__satellite { animation: orbit-satellite-pulse 2.8s ease-in-out infinite; }
+.start-orbit.is-active .start-orbit__glint--one { animation: orbit-glint 3.4s ease-in-out infinite; }
+.start-orbit.is-active .start-orbit__glint--two { animation: orbit-glint 3.4s 1.2s ease-in-out infinite; }
+@keyframes orbit-satellite-pulse { 50% { box-shadow: 0 0 0 7px #782d3e0c; } }
+@keyframes orbit-glint { 50% { opacity: .25; transform: scale(.65); } }
 
 .site-footer { width: 100%; margin: 0; padding: 50px max(48px, calc((100% - 1280px) / 2)); background: var(--ink); color: var(--ivory); }
 .footer-main { width: min(100%, 1280px); margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(150px, .65fr) minmax(185px, .8fr) minmax(190px, .8fr); gap: clamp(18px, 3vw, 48px); }
@@ -447,9 +466,10 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
   .start-copy .eyebrow { margin-bottom: 15px; }
   .start-copy h2 { margin-bottom: 13px; }
   .start-copy > p:not(.eyebrow) { font-size: 11px; }
-  .start-aside { min-height: 0; padding-top: 21px; border-top: 1px solid #d0c5b8; border-left: 0; flex-direction: row; justify-content: flex-start; gap: 18px; }
-  .start-seal { width: 73px; height: 73px; margin: 0; gap: 3px; font-size: 13px; }
-  .seal-arrow { padding-bottom: 12px; font-size: 10px; }
+  .start-aside { min-height: 0; padding-top: 17px; border-top: 1px solid #d0c5b8; border-left: 0; }
+  .start-orbit { width: min(100%, 196px); }
+  .start-orbit__core { width: 62px; font-size: 28px; }
+  .start-orbit__satellite { width: 7px; height: 7px; left: calc(50% - 3.5px); }
   .site-footer { padding: 34px 19px 14px; }
   .footer-main { grid-template-columns: 1fr; gap: 24px; padding-bottom: 24px; }
   .footer-identity { grid-column: auto; }

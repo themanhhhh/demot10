@@ -4,6 +4,7 @@ import { lazy, Suspense, useContext, useReducer, useRef, useState } from "react"
 import type { ComponentPropsWithoutRef, KeyboardEvent, ReactNode } from "react";
 import Image from "next/image";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import {
   ArrowDown,
@@ -25,6 +26,8 @@ import { DialogFocusContext } from "@/contexts/dialog-focus-context";
 import { usePointerSpotlight } from "@/hooks/use-pointer-spotlight";
 
 const StartDialogContent = lazy(() => import("@/components/start-dialog").then((module) => ({ default: module.StartDialogContent })));
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const resources = [
   { id: "inhouse", name: "In-house", type: "NỘI LỰC", detail: "Người hiểu sản phẩm, khách hàng và nhịp vận hành bên trong doanh nghiệp.", tag: "Nền tảng bạn đang có", symbol: "◒" },
@@ -458,7 +461,67 @@ function FlowSection({
 }
 
 function StartSection() {
-  const startPanelRef = useScrollReveal<HTMLDivElement>(".start-copy > *, .start-seal");
+  const startPanelRef = useScrollReveal<HTMLDivElement>(".start-copy > *");
+  const startOrbitRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const orbit = startOrbitRef.current;
+    if (!orbit) return;
+
+    const track = orbit.querySelector<HTMLElement>(".start-orbit__track");
+    const rings = orbit.querySelectorAll<SVGCircleElement>(".start-orbit__ring");
+    const core = orbit.querySelector<HTMLElement>(".start-orbit__core-mark");
+    if (!track || !rings.length || !core) return;
+
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      const intro = gsap.timeline({
+        scrollTrigger: {
+          trigger: orbit,
+          start: "top 82%",
+          once: true,
+        },
+      });
+
+      intro
+        .fromTo(
+          rings,
+          { strokeDashoffset: 1, autoAlpha: 0 },
+          { strokeDashoffset: 0, autoAlpha: 1, duration: 1.05, stagger: 0.16, ease: "power2.out" },
+        )
+        .fromTo(core, { scale: 0.78, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.6, ease: "back.out(1.5)" }, "-=0.55");
+
+      const rotation = gsap.to(track, {
+        rotation: 360,
+        duration: 34,
+        ease: "none",
+        repeat: -1,
+        paused: true,
+        transformOrigin: "50% 50%",
+      });
+
+      const visibility = ScrollTrigger.create({
+        trigger: orbit,
+        start: "top bottom",
+        end: "bottom top",
+        onToggle: ({ isActive }) => {
+          orbit.classList.toggle("is-active", isActive);
+          if (isActive) rotation.play();
+          else rotation.pause();
+        },
+      });
+      if (visibility.isActive) rotation.play();
+
+      return () => {
+        orbit.classList.remove("is-active");
+        visibility.kill();
+        rotation.kill();
+        intro.kill();
+      };
+    });
+
+    return () => media.revert();
+  }, { scope: startOrbitRef });
 
   return (
     <section className="start-section section-wrap section-pad" id="start" aria-labelledby="start-title">
@@ -469,8 +532,23 @@ function StartSection() {
           <p>Chọn cách chia sẻ bối cảnh phù hợp. Ecom’s Diary sẽ xem xét thông tin bạn gửi và liên hệ lại theo cách bạn đã cung cấp.</p>
           <WorkTrigger>Mở việc <ArrowUpRight aria-hidden="true" size={14} /></WorkTrigger>
         </div>
-        <div className="start-aside">
-          <div className="start-seal" aria-hidden="true"><span>MỞ</span><span>VIỆC</span><ArrowUpRight className="seal-arrow" size={13} /></div>
+        <div className="start-aside" aria-hidden="true">
+          <div className="start-orbit" ref={startOrbitRef}>
+            <div className="start-orbit__track">
+              <svg className="start-orbit__svg" viewBox="0 0 280 280" focusable="false">
+                <circle className="start-orbit__ring start-orbit__ring--outer" cx="140" cy="140" r="122" pathLength="1" />
+                <circle className="start-orbit__ring start-orbit__ring--middle" cx="140" cy="140" r="96" pathLength="1" />
+                <circle className="start-orbit__ring start-orbit__ring--inner" cx="140" cy="140" r="69" pathLength="1" />
+                <circle className="start-orbit__node start-orbit__node--north" cx="140" cy="18" r="3" />
+                <circle className="start-orbit__node start-orbit__node--southwest" cx="54" cy="226" r="2.5" />
+                <circle className="start-orbit__node start-orbit__node--northeast" cx="223" cy="83" r="2" />
+              </svg>
+              <span className="start-orbit__satellite" />
+            </div>
+            <div className="start-orbit__core"><span className="start-orbit__core-mark">E</span></div>
+            <span className="start-orbit__glint start-orbit__glint--one" />
+            <span className="start-orbit__glint start-orbit__glint--two" />
+          </div>
         </div>
       </div>
     </section>
