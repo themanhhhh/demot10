@@ -118,16 +118,16 @@ function Hero() {
         <div className="chess-scene pointer-spotlight-region" ref={chessSceneSpotlight.regionRef}>
           <Image
             src="/assets/chess/horse-reference-pdf-preview.webp"
-            alt="Quân Mã màu đồng trước các quân cờ khác trên bàn cờ; ảnh tham chiếu trích từ PDF, chưa phải asset cuối."
+            alt="Quân Mã màu đồng trước các quân cờ khác trên bàn cờ."
             fill
             sizes="(max-width: 620px) calc(100vw - 56px), (max-width: 900px) calc(100vw - 84px), 50vw"
             className="chess-reference-image"
             preload
           />
           <span ref={chessSceneSpotlight.spotlightRef} className="pointer-spotlight" aria-hidden="true" />
-          <span className="scene-label">ẢNH THAM CHIẾU · CHỜ ASSET GỐC</span>
+          <span className="scene-label">MỘT VIỆC · NHIỀU HƯỚNG ĐI</span>
         </div>
-        <figcaption><span>Một việc. Nhiều hướng đi.</span><span className="caption-rule" /><span>ẢNH THAM CHIẾU · CHƯA PHẢI ASSET CUỐI</span></figcaption>
+      <figcaption><span>Một việc. Nhiều hướng đi.</span><span className="caption-rule" /><span>GÓC NHÌN CHIẾN LƯỢC</span></figcaption>
       </figure>
       <div className="hero-footnote"><span>01 — 04</span><span>GIẢI PHÁP ĐƯỢC HÌNH THÀNH QUA ĐỐI THOẠI</span><span>SCROLL ĐỂ KHÁM PHÁ <ArrowDown aria-hidden="true" size={10} /></span></div>
     </section>
@@ -411,7 +411,7 @@ function FlowSection({
         </div>
 
         <aside ref={dealPreviewRef} className="deal-preview" aria-labelledby="deal-title" aria-live="polite" aria-atomic="true">
-          <div className="deal-top"><span className="deal-mark" aria-hidden="true">E</span><PreviewStamp>CẤU HÌNH<br />MINH HỌA</PreviewStamp></div>
+          <div className="deal-top"><span className="deal-mark" aria-hidden="true">E</span><PreviewStamp>CẤU HÌNH<br />THAM KHẢO</PreviewStamp></div>
           <p className="deal-kicker">CẤU HÌNH ĐANG XEM</p><h3 id="deal-title">Một Deal cần rõ điều gì?</h3>
           <div className="deal-situation"><span>VIỆC</span><p>{selectedScenario.problem}</p></div>
           <div className="deal-situation"><span>HƯỚNG MINH HỌA</span><p>{selectedSolution?.title ?? "Chưa chọn hướng giải"}</p></div>
@@ -436,7 +436,7 @@ function StartSection() {
         <div className="start-copy">
           <Eyebrow><span className="eyebrow-line" />03 — Bước tiếp theo</Eyebrow>
           <h2 id="start-title">Bạn muốn<br /><em>bắt đầu thế nào?</em></h2>
-          <p>Chọn cách chia sẻ bối cảnh phù hợp. Hai form đang ẩn cho đến khi bạn mở lựa chọn. Bản xem trước chưa kết nối hệ thống tiếp nhận; vui lòng không nhập thông tin cá nhân thật.</p>
+          <p>Chọn cách chia sẻ bối cảnh phù hợp. Ecom’s Diary sẽ xem xét thông tin bạn gửi và liên hệ lại theo cách bạn đã cung cấp.</p>
           <WorkTrigger>Mở việc <ArrowUpRight aria-hidden="true" size={14} /></WorkTrigger>
         </div>
         <div className="start-aside">
@@ -444,7 +444,7 @@ function StartSection() {
           <div className="start-note"><span className="note-rule" /><p>Gửi form không đồng nghĩa đã được chấp nhận, có lịch hẹn hay phải thanh toán.</p></div>
         </div>
       </div>
-      <div className="start-safety"><CircleHelp aria-hidden="true" size={13} /><p>Preview nội bộ · Form mô phỏng · Không gửi dữ liệu, không tạo hồ sơ, không thu tiền.</p></div>
+      <div className="start-safety"><CircleHelp aria-hidden="true" size={13} /><p>Gửi form chưa đồng nghĩa với việc được tiếp nhận, có lịch hẹn hoặc phát sinh nghĩa vụ thanh toán.</p></div>
     </section>
   );
 }
@@ -492,8 +492,8 @@ function DialogFallback({ restoreFocus }: { restoreFocus: () => void }) {
         event.preventDefault();
         restoreFocus();
       }}>
-        <Dialog.Title className="sr-only">Đang mở bản xem trước</Dialog.Title>
-        <Dialog.Description className="sr-only">Luồng Mở việc đang tải. Không có dữ liệu được gửi.</Dialog.Description>
+        <Dialog.Title className="sr-only">Mở việc</Dialog.Title>
+        <Dialog.Description className="sr-only">Đang tải biểu mẫu Mở việc.</Dialog.Description>
         <div className="dialog-shell">
           <div className="dialog-topbar">
             <span className="wordmark dialog-wordmark"><span className="wordmark-mark" aria-hidden="true">E</span><span>Giải pháp của Ecom’s Diary</span></span>
