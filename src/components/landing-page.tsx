@@ -120,8 +120,8 @@ function Hero() {
         <div className="art-topline"><span>GÓC NHÌN CỦA BẠN</span><span>01 / 03</span></div>
         <div className="chess-scene pointer-spotlight-region" ref={chessSceneSpotlight.regionRef}>
           <Image
-            src="/assets/chess/horse-reference-pdf-preview.webp"
-            alt="Quân Mã màu đồng trước các quân cờ khác trên bàn cờ."
+            src="/assets/chess/hero-chess-original.png"
+            alt="Quân Mã bằng đồng nổi bật trên bàn cờ, phía sau là các quân cờ được làm mờ."
             fill
             sizes="(max-width: 620px) calc(100vw - 56px), (max-width: 900px) calc(100vw - 84px), 50vw"
             className="chess-reference-image"

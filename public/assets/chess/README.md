@@ -1,8 +1,7 @@
-# Hero reference asset
+# Hero assets
+
+`hero-chess-original.png` is original artwork generated for the current Hero section. It is used by the website at `/assets/chess/hero-chess-original.png`.
 
 `horse-reference-pdf-preview.webp` is a WebP export of the horse image extracted from page 3 of the candidate visual brief.
 
-- Use: private preview only.
-- Status: reference image, not the original high-resolution source or a final approved asset.
-- Do not split it into invented layers, modify it with AI, or use the desktop/mobile screenshots as production images.
-- Confirm usage rights and replace it with the approved source before public release.
+- The PDF-derived image remains a reference only; the site no longer uses it as the Hero image.
