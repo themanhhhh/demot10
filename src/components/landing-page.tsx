@@ -93,12 +93,13 @@ function Header() {
 }
 
 function Hero() {
+  const heroCopyRef = useScrollReveal<HTMLDivElement>(".eyebrow, h1, .hero-intro, .hero-actions, .hero-note");
   const heroArtRef = useScrollReveal<HTMLElement>();
   const chessSceneSpotlight = usePointerSpotlight<HTMLDivElement>();
 
   return (
     <section className="hero section-wrap" id="top" aria-labelledby="hero-title">
-      <div className="hero-copy">
+      <div className="hero-copy" ref={heroCopyRef}>
         <Eyebrow><span className="eyebrow-line" />Bắt đầu từ một việc kinh doanh</Eyebrow>
         <h1 id="hero-title">Một việc kinh doanh.<br /><em>Nhiều cách ghép team.</em></h1>
         <p className="hero-intro">Xem xét những hướng giải khác nhau do Partner chuyên môn đề xuất. Kết hợp đội ngũ bạn đang có với nguồn lực phù hợp để làm rõ phạm vi, vai trò và cam kết.</p>
@@ -140,7 +141,8 @@ function PainSection({
   state: DemoState;
   dispatch: (action: DemoAction) => void;
 }) {
-  const painGridRef = useScrollReveal<HTMLDivElement>();
+  const headingRef = useScrollReveal<HTMLDivElement>(".eyebrow, h2, p");
+  const painGridRef = useScrollReveal<HTMLDivElement>(".pain-card");
   const responseRef = useRef<HTMLDivElement>(null);
   const selectedScenario = demoScenarios.find((scenario) => scenario.id === state.scenarioId)!;
 
@@ -162,7 +164,7 @@ function PainSection({
 
   return (
     <section className="pain-section section-wrap section-pad" aria-labelledby="pain-title">
-      <div className="section-heading">
+      <div className="section-heading" ref={headingRef}>
         <Eyebrow>00 <span className="eyebrow-line" /> Nhận diện tình huống</Eyebrow>
         <h2 id="pain-title">Bạn đang gặp<br /><em>chuyện gì?</em></h2>
         <p>Chọn điều gần với bối cảnh của bạn. Đây chỉ là điểm bắt đầu để xem cách nhiều nguồn lực có thể phối hợp, không phải chẩn đoán.</p>
@@ -197,7 +199,9 @@ function PainSection({
 
 function ResourceSection() {
   const [selectedResources, setSelectedResources] = useState<ResourceId[]>(["inhouse"]);
-  const resourceGridRef = useScrollReveal<HTMLDivElement>();
+  const headingRef = useScrollReveal<HTMLDivElement>(".section-topline, .why-heading-row");
+  const resourceGridRef = useScrollReveal<HTMLDivElement>(".resource-card");
+  const coordinationRef = useScrollReveal<HTMLDivElement>();
   const selectedNames = resources.filter((resource) => selectedResources.includes(resource.id)).map((resource) => resource.name);
   const selectedExternalNames = resources.filter((resource) => resource.id !== "inhouse" && selectedResources.includes(resource.id)).map((resource) => resource.name);
   const coordinationCopy = selectedResources.length === 0
@@ -222,10 +226,12 @@ function ResourceSection() {
 
   return (
     <section className="why-section section-wrap section-pad" id="why" aria-labelledby="why-title">
-      <div className="section-topline"><Eyebrow>01 <span className="eyebrow-line" /> Nguồn lực có thể phối hợp</Eyebrow><span className="section-index">KHÔNG CẦN BẮT ĐẦU LẠI TỪ ĐẦU</span></div>
-      <div className="why-heading-row">
-        <h2 id="why-title">Bạn không phải bỏ<br /><em>những gì mình đã có.</em></h2>
-        <p>Mỗi cách làm có một vai trò. Một hướng giải có thể cần một cấu hình team khác; bạn có thể giữ team hiện tại và bổ sung phần còn thiếu.</p>
+      <div ref={headingRef}>
+        <div className="section-topline"><Eyebrow>01 <span className="eyebrow-line" /> Nguồn lực có thể phối hợp</Eyebrow><span className="section-index">KHÔNG CẦN BẮT ĐẦU LẠI TỪ ĐẦU</span></div>
+        <div className="why-heading-row">
+          <h2 id="why-title">Bạn không phải bỏ<br /><em>những gì mình đã có.</em></h2>
+          <p>Mỗi cách làm có một vai trò. Một hướng giải có thể cần một cấu hình team khác; bạn có thể giữ team hiện tại và bổ sung phần còn thiếu.</p>
+        </div>
       </div>
       <div className="resource-grid" ref={resourceGridRef}>
         {resources.map((resource, index) => {
@@ -233,7 +239,7 @@ function ResourceSection() {
           return <ResourceCard key={resource.id} resource={resource} index={index} selected={selected} onToggle={toggleResource} onKeyDown={handleResourceKeyDown} />;
         })}
       </div>
-      <div className="coordination-note" aria-live="polite" aria-atomic="true"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><div><p><strong>{selectedNames.length ? `Nguồn lực đang chọn: ${selectedNames.join(" + ")}` : "Chưa chọn nguồn lực"}</strong></p><p>{coordinationCopy}</p></div><span className="coordination-tag">NGUYÊN TẮC</span></div>
+      <div ref={coordinationRef} className="coordination-note" aria-live="polite" aria-atomic="true"><span className="coordination-icon" aria-hidden="true"><MoveRight size={20} /></span><div><p><strong>{selectedNames.length ? `Nguồn lực đang chọn: ${selectedNames.join(" + ")}` : "Chưa chọn nguồn lực"}</strong></p><p>{coordinationCopy}</p></div><span className="coordination-tag">NGUYÊN TẮC</span></div>
     </section>
   );
 }
@@ -281,8 +287,11 @@ function FlowSection({
   state: DemoState;
   dispatch: (action: DemoAction) => void;
 }) {
-  const builderRef = useScrollReveal<HTMLDivElement>();
+  const flowHeadingRef = useScrollReveal<HTMLElement>(".section-topline, .flow-heading-row, .flow-steps");
+  const builderRef = useScrollReveal<HTMLDivElement>(".builder-block, .deal-preview");
   const dealPreviewRef = useRef<HTMLElement>(null);
+  const previousBuilderSelectionRef = useRef({ scenarioId: state.scenarioId, solutionId: state.solutionId });
+  const previousDealSelectionRef = useRef({ scenarioId: state.scenarioId, solutionId: state.solutionId, configurationId: state.configurationId });
   const selectedScenario = demoScenarios.find((scenario) => scenario.id === state.scenarioId)!;
   const selectedSolution = selectedScenario.solutions.find((solution) => solution.id === state.solutionId);
   const selectedConfiguration = selectedSolution?.configurations.find((configuration) => configuration.id === state.configurationId);
@@ -292,7 +301,16 @@ function FlowSection({
     const builder = builderRef.current;
     if (!builder) return;
 
-    const items = gsap.utils.toArray<HTMLElement>(".direction-button, .configuration-option", builder);
+    const previous = previousBuilderSelectionRef.current;
+    previousBuilderSelectionRef.current = { scenarioId: state.scenarioId, solutionId: state.solutionId };
+    const selector = previous.scenarioId !== state.scenarioId
+      ? ".direction-button, .configuration-prompt"
+      : previous.solutionId !== state.solutionId
+        ? ".configuration-option, .configuration-prompt"
+        : null;
+    if (!selector) return;
+
+    const items = Array.from(builder.querySelectorAll<HTMLElement>(selector));
     if (!items.length) return;
 
     const media = gsap.matchMedia();
@@ -314,6 +332,17 @@ function FlowSection({
   useGSAP(() => {
     const preview = dealPreviewRef.current;
     if (!preview) return;
+    const previous = previousDealSelectionRef.current;
+    previousDealSelectionRef.current = {
+      scenarioId: state.scenarioId,
+      solutionId: state.solutionId,
+      configurationId: state.configurationId,
+    };
+    if (
+      previous.scenarioId === state.scenarioId &&
+      previous.solutionId === state.solutionId &&
+      previous.configurationId === state.configurationId
+    ) return;
 
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
@@ -332,7 +361,7 @@ function FlowSection({
   });
 
   return (
-    <section className="flow-section section-wrap section-pad" id="flow" aria-labelledby="flow-title">
+    <section ref={flowHeadingRef} className="flow-section section-wrap section-pad" id="flow" aria-labelledby="flow-title">
        <div className="section-topline"><Eyebrow>02 <span className="eyebrow-line" /> Từ việc đến Deal</Eyebrow><span className="demo-inline"><span aria-hidden="true">●</span> VÍ DỤ GIẢ ĐỊNH · CHƯA PHẢI ĐỀ XUẤT THỰC</span></div>
       <div className="flow-heading-row">
         <div><h2 id="flow-title">Một việc. Những hướng<br /><em>giải khác nhau.</em></h2><p className="flow-intro">Chọn một tình huống, xem các hướng giải và cấu hình team giả định. Không có Partner, báo giá hay kết quả thực được đại diện ở đây.</p></div>
@@ -429,9 +458,11 @@ function FlowSection({
 }
 
 function StartSection() {
+  const startPanelRef = useScrollReveal<HTMLDivElement>(".start-copy > *, .start-seal");
+
   return (
     <section className="start-section section-wrap section-pad" id="start" aria-labelledby="start-title">
-      <div className="start-panel">
+      <div className="start-panel" ref={startPanelRef}>
         <div className="start-copy">
           <Eyebrow><span className="eyebrow-line" />03 — Bước tiếp theo</Eyebrow>
           <h2 id="start-title">Bạn muốn<br /><em>bắt đầu thế nào?</em></h2>
@@ -447,8 +478,10 @@ function StartSection() {
 }
 
 function Footer() {
+  const footerRef = useScrollReveal<HTMLElement>(".footer-main > *");
+
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" ref={footerRef}>
       <div className="footer-main">
         <div className="footer-identity">
           <a className="wordmark footer-wordmark" href="#top"><span className="wordmark-mark" aria-hidden="true">E</span><span>Giải pháp của<br className="wordmark-break" /> Ecom’s Diary</span></a>
