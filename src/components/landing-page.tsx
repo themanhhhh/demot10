@@ -24,6 +24,7 @@ import { demoReducer, initialDemoState } from "@/features/deal-demo/reducer";
 import type { DemoAction, DemoState } from "@/features/deal-demo/model";
 import { DialogFocusContext } from "@/contexts/dialog-focus-context";
 import { usePointerSpotlight } from "@/hooks/use-pointer-spotlight";
+import { ChessSlideshow } from "@/components/chess-slideshow";
 
 const StartDialogContent = lazy(() => import("@/components/start-dialog").then((module) => ({ default: module.StartDialogContent })));
 
@@ -97,8 +98,6 @@ function Header() {
 
 function Hero() {
   const heroCopyRef = useScrollReveal<HTMLDivElement>(".eyebrow, h1, .hero-intro, .hero-actions, .hero-note");
-  const heroArtRef = useScrollReveal<HTMLElement>(".chess-reference-image");
-  const chessSceneSpotlight = usePointerSpotlight<HTMLDivElement>();
 
   return (
     <section className="hero section-wrap" id="top" aria-labelledby="hero-title">
@@ -113,25 +112,7 @@ function Hero() {
         <p className="hero-note"><Sparkles aria-hidden="true" size={13} /> Partner đề xuất. Bạn quyết định cuối cùng.</p>
       </div>
 
-      <figure
-        ref={heroArtRef}
-        className="hero-art"
-      >
-        <div className="art-topline"><span>GÓC NHÌN CỦA BẠN</span><span>01 / 03</span></div>
-        <div className="chess-scene pointer-spotlight-region" ref={chessSceneSpotlight.regionRef}>
-          <Image
-            src="/assets/chess/hero-chess-original.png"
-            alt="Quân Mã bằng đồng nổi bật trên bàn cờ, phía sau là các quân cờ được làm mờ."
-            fill
-            sizes="(max-width: 620px) calc(100vw - 56px), (max-width: 900px) calc(100vw - 84px), 50vw"
-            className="chess-reference-image"
-            preload
-          />
-          <span ref={chessSceneSpotlight.spotlightRef} className="pointer-spotlight" aria-hidden="true" />
-          <span className="scene-label">MỘT VIỆC · NHIỀU HƯỚNG ĐI</span>
-        </div>
-      <figcaption><span>Một việc. Nhiều hướng đi.</span><span className="caption-rule" /><span>GÓC NHÌN CHIẾN LƯỢC</span></figcaption>
-      </figure>
+      <ChessSlideshow />
       <div className="hero-footnote"><span>01 — 04</span><span>GIẢI PHÁP ĐƯỢC HÌNH THÀNH QUA ĐỐI THOẠI</span><span>SCROLL ĐỂ KHÁM PHÁ <ArrowDown aria-hidden="true" size={10} /></span></div>
     </section>
   );
@@ -168,12 +149,12 @@ function PainSection({
   return (
     <section className="pain-section section-wrap section-pad" aria-labelledby="pain-title">
       <div className="section-heading" ref={headingRef}>
-        <Eyebrow>00 <span className="eyebrow-line" /> Nhận diện tình huống</Eyebrow>
-        <h2 id="pain-title">Bạn đang gặp<br /><em>chuyện gì?</em></h2>
-        <p>Chọn điều gần với bối cảnh của bạn. Đây chỉ là điểm bắt đầu để xem cách nhiều nguồn lực có thể phối hợp, không phải chẩn đoán.</p>
+        <Eyebrow>00 <span className="eyebrow-line" /> Case thực tế tại Việt Nam</Eyebrow>
+        <h2 id="pain-title">Những cách làm<br /><em>đã được công bố.</em></h2>
+        <p>Ba case thương mại điện tử Việt Nam. Cách làm và số liệu được TikTok for Business công bố; chọn từng case để xem nguồn.</p>
       </div>
       <div className="pain-side">
-        <div className="pain-grid" ref={painGridRef} role="group" aria-label="Chọn một tình huống minh họa">
+        <div className="pain-grid" ref={painGridRef} role="group" aria-label="Chọn một case thực tế">
           {demoScenarios.map((scenario, index) => (
             <button
               className={`pain-card${state.scenarioId === scenario.id ? " is-selected" : ""}`}
@@ -186,14 +167,13 @@ function PainSection({
               <span className="pain-number">0{index + 1}</span>
               <span className="pain-icon" aria-hidden="true">{index === 0 ? <ArrowUpRight size={17} /> : index === 1 ? "♜" : <Sparkles size={16} />}</span>
               <span className="pain-card-title">{scenario.painLabel}</span>
-              <span className="pain-select">{state.scenarioId === scenario.id ? "Đang chọn" : "Chọn tình huống"}<ArrowUpRight aria-hidden="true" size={10} /></span>
+              <span className="pain-select">{state.scenarioId === scenario.id ? "Đang xem case" : "Xem case"}<ArrowUpRight aria-hidden="true" size={10} /></span>
             </button>
           ))}
         </div>
         <div className="pain-response" ref={responseRef} aria-live="polite" aria-atomic="true">
           <span className="response-mark" aria-hidden="true"><MoveRight size={16} /></span>
-          <div><p className="response-kicker">Một việc kinh doanh có thể có nhiều điểm tiếp cận.</p><p>{selectedScenario.response}</p></div>
-          <PreviewStamp />
+          <div><p className="response-kicker">{selectedScenario.caseResult}</p><p>{selectedScenario.response}</p><a className="case-source-link" href={selectedScenario.caseSourceUrl} target="_blank" rel="noreferrer">Nguồn: {selectedScenario.caseSourceName} <ArrowUpRight size={12} aria-hidden="true" /></a></div>
         </div>
       </div>
     </section>

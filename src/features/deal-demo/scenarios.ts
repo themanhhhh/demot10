@@ -10,9 +10,12 @@ export const resourceLabels: Record<ResourceType, string> = {
 export const demoScenarios = [
   {
     id: "ads",
-    painLabel: "Đốt thêm tiền Ads nhưng số vẫn đi ngang.",
-    problem: "Doanh số tăng chậm dù đã chạy quảng cáo",
-    response: "Có thể xem xét hành trình chuyển đổi, đề xuất giá trị hoặc cách phối hợp nguồn lực. Partner chuyên môn đề xuất hướng; bạn quyết định bước tiếp.",
+    painLabel: "Hebe Mall · ROAS tăng 343%",
+    problem: "Hebe Mall chạy quảng cáo chuyển đổi nhưng kết quả ban đầu còn hạn chế.",
+    response: "Trong chiến dịch 3 tháng, Hebe Mall kết hợp quảng cáo tăng tương tác cộng đồng với quảng cáo mua hàng, dùng tệp Custom/Lookalike và video đời sống. TikTok for Business công bố ROAS tăng 343%, CPA giảm 41% so với các chiến dịch trước.",
+    caseResult: "ROAS +343% · CPA −41%",
+    caseSourceUrl: "https://ads.tiktok.com/business/en-US/inspiration/hebe-mall",
+    caseSourceName: "TikTok for Business · Hebe Mall",
     solutions: [
       {
         id: "ads-conversion",
@@ -56,9 +59,12 @@ export const demoScenarios = [
   },
   {
     id: "team",
-    painLabel: "Nuôi cả team nhưng sếp vẫn phải tự gánh số.",
-    problem: "Team hiện tại đang quá tải",
-    response: "Có thể xem xét phần team đang phải tự gánh và năng lực cần bổ sung. Giữ lại điều đang vận hành tốt; Client quyết định phạm vi phối hợp.",
+    painLabel: "SB Group · tỷ lệ chuyển đổi tăng 90%",
+    problem: "SB Group muốn cải thiện chuyển đổi cho thương hiệu Laura Sunshine trên website.",
+    response: "SB Group dùng TikTok Pixel, Custom/Lookalike Audience và loại trừ người vừa mua sản phẩm giá trị cao; nội dung quảng cáo có nghệ sĩ và kể chuyện hài hước. TikTok for Business công bố tỷ lệ chuyển đổi tăng 90% so với chiến dịch trước, trong chiến dịch một tháng.",
+    caseResult: "CVR +90% trong chiến dịch 1 tháng",
+    caseSourceUrl: "https://ads.tiktok.com/business/en-US/inspiration/sb-group",
+    caseSourceName: "TikTok for Business · SB Group",
     solutions: [
       {
         id: "team-capacity",
@@ -102,9 +108,12 @@ export const demoScenarios = [
   },
   {
     id: "product",
-    painLabel: "Tung sản phẩm mới nhưng thị trường chưa phản hồi.",
-    problem: "Sản phẩm mới chưa có phản hồi rõ",
-    response: "Có thể bắt đầu bằng việc làm rõ điều cần kiểm chứng và cách lắng nghe phản hồi. Đây là câu hỏi mở, không phải chẩn đoán sản phẩm.",
+    painLabel: "CRAZYTEEN Studio · bán hơn 7.900 sản phẩm",
+    problem: "CRAZYTEEN Studio muốn tiếp cận khách hàng mới và tăng bán hàng trên TikTok Shop.",
+    response: "CRAZYTEEN Studio kết hợp Video Shopping Ads, LIVE Shopping Ads, nội dung phối đồ và livestream trên TikTok Shop. TikTok for Business công bố chiến dịch 28 ngày bán hơn 7.900 sản phẩm; GMV quảng cáo cao gấp 6 lần các chiến dịch trước.",
+    caseResult: ">7.900 sản phẩm · GMV quảng cáo ×6",
+    caseSourceUrl: "https://ads.tiktok.com/business/en-US/inspiration/crazyteen-studio?redirected=1",
+    caseSourceName: "TikTok for Business · CRAZYTEEN Studio",
     solutions: [
       {
         id: "product-validation",

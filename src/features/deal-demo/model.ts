@@ -21,6 +21,9 @@ export interface BusinessScenario {
   painLabel: string;
   problem: string;
   response: string;
+  caseResult: string;
+  caseSourceUrl: string;
+  caseSourceName: string;
   solutions: Solution[];
 }
 
