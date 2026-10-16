@@ -37,7 +37,6 @@ export function useScrollReveal<T extends HTMLElement>(targets?: string) {
           splitInstances.push(SplitText.create(target, {
             type: "words, chars",
             charsClass: "reveal-char",
-            mask: "chars",
             autoSplit: true,
             onSplit: (self) => gsap.from(self.chars, {
               yPercent: -120,

@@ -157,7 +157,7 @@ h1 em, h2 em { color: var(--burgundy); font-weight: 400; letter-spacing: 0; }
 
 .flow-section { padding-bottom: 115px; }
 .flow-heading-row { margin: 0 0 35px; display: flex; justify-content: space-between; align-items: end; gap: 40px; }
-.flow-heading-row h2 { margin-bottom: 13px; }
+.flow-heading-row h2 { margin-bottom: 13px; padding-block: .08em .12em; line-height: 1.14; }
 .flow-intro { max-width: 580px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
 .flow-aside { width: 137px; min-height: 87px; flex: 0 0 auto; padding-left: 20px; border-left: 1px solid #cfc5b8; display: flex; align-items: center; gap: 11px; color: var(--muted); font: 13px/1.45 var(--serif); }
 .aside-num { color: var(--burgundy); font: 50px/.8 var(--serif); }
