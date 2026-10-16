@@ -12,6 +12,7 @@ import type { FormAValues, FormBValues } from "@/features/forms/schemas";
 import { DialogFocusContext } from "@/contexts/dialog-focus-context";
 import { submitLead } from "@/features/forms/submit";
 
+
 type ErrorLike = HookFormFieldError | undefined;
 
 const authorityOptions = [
@@ -438,7 +439,7 @@ export function StartDialogContent({ initialTask = "" }: { initialTask?: string 
             <Dialog.Close asChild><a className="wordmark dialog-wordmark" href="#top"><span className="wordmark-mark" aria-hidden="true">E</span><span>Giải pháp của Ecom’s Diary</span></a></Dialog.Close>
             <Dialog.Close asChild><button className="icon-button" type="button" aria-label="Đóng cửa sổ"><X aria-hidden="true" size={18} /></button></Dialog.Close>
           </div>
-          <div className="dialog-content">
+          <div className="dialog-content" data-reveal={route === null ? "picker" : "form"}>
             {route === null && <RoutePicker onSelect={setRoute} routePickerRef={routePickerRef} />}
             {route !== null && (
               <div>
